@@ -1,0 +1,97 @@
+# Trigger for all branches
+trigger:
+  - master
+  - develop
+  - feature/*
+  - bugfix/*
+  - hotfix/*
+  - support/*
+  
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Test
+  displayName: Automated Deployment Testing
+  condition: succeededOrFailed()
+  jobs:  
+  - job: Test
+    condition: succeededOrFailed()
+    displayName: React Test
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      continueOnError: false
+      inputs:
+        versionSpec: '18.x'
+    - task: CmdLine@2
+      displayName: 'npm install'
+      continueOnError: false
+      inputs:
+        script: |
+          npm install
+    - task: CmdLine@2
+      displayName: 'npm build'
+      continueOnError: false
+      inputs:
+        script: |
+          npm run build
+    - task: CopyFiles@2
+      continueOnError: false
+      inputs:
+        Contents: 'build/**'                      # Pull the build directory
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      continueOnError: true
+      inputs: 
+        PathtoPublish: $(Build.ArtifactStagingDirectory)  # publish build files
+        ArtifactName: $(Build.SourceBranchName)           # output build artifact labeled by the source branch name
+    - task: CmdLine@2
+      name: npm_test
+      displayName: 'Run NPM package test script'
+      continueOnError: true
+      inputs:
+        script: |
+          npm test
+    - task: PublishTestResults@2
+      name: junit
+      displayName: 'Publish JUnit results'
+      continueOnError: true
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/**/test-results.xml'
+    - task: PublishCodeCoverageResults@1
+      name: coverage
+      displayName: 'Publish code coverage results'
+      continueOnError: true
+      inputs: 
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+- stage: Build
+  displayName: Prepare Container Image
+  # dependsOn: Test
+  condition: succeededOrFailed()
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion: '17.09.0-ce'
+    - task: Docker@2
+      name: build
+      displayName: 'Build Docker Container Image'
+      continueOnError: false
+      inputs:
+        containerRegistry: 'specia-cr'
+        repository: 'specia-portal'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.SourceBranchName)
+          $(Build.BuildId)

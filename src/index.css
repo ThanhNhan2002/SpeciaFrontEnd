@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(250, 250, 250);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: rgba(0,120,211,255);
+  --bs-btn-border-color: rgba(0,120,211,255);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgba(0,120,211,255);
+  --bs-btn-hover-border-color: rgba(0,120,211,255);
+  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: rgba(0,120,211,255);
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #0d6efd;
+  --bs-btn-disabled-border-color: #0d6efd;
+}
+
+.alert-success {
+  --bs-alert-bg: transparent;
+}
+
+.alert-danger {
+  --bs-alert-bg: transparent;
+}
+
+
+.modal.fade .modal-dialog {-webkit-transform: translate(0,0)scale(.5);transform: translate(0,0)scale(.7);}
+.modal.show .modal-dialog {-webkit-transform: translate(0,0)scale(1);transform: translate(0,0)scale(1);}

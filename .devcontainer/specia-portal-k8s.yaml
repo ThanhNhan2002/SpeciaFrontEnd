@@ -1,0 +1,504 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: specia-portal
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: specia-portal
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: specia-platform
+    app.kubernetes.io/name: specia-portal
+    app.kubernetes.io/version: 0.1.0
+    app: platform-server
+spec:
+  revisionHistoryLimit: 1
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 100%
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: specia-portal
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: specia-platform
+        app.kubernetes.io/name: specia-portal
+        app.kubernetes.io/version: 0.1.0
+        app: platform-server
+    spec:
+      # initContainers:
+      # - name: proxy-init
+      #   image: openpolicyagent/proxy_init:v8
+      #   # Configure the iptables bootstrap script to redirect traffic to the
+      #   # Envoy proxy on port 8000, specify that Envoy will be running as user
+      #   # 1111, and that we want to exclude port 8282 from the proxy for the
+      #   # OPA health checks. These values must match up with the configuration
+      #   # defined below for the "envoy" and "opa" containers.
+      #   args:
+      #   - "-p"
+      #   - "8000"
+      #   - "-u"
+      #   - "1111"
+      #   - "-w"
+      #   - "8282"
+      #   securityContext:
+      #     capabilities:
+      #       add:
+      #       - NET_ADMIN
+      #     runAsNonRoot: false
+      #     runAsUser: 0
+      serviceAccountName: specia-portal
+      containers:
+      - name: specia-portal
+        image: speciacr.azurecr.io/specia-portal@sha256:d803787cb9eb00585f9ff5cb914134906b16c52f5b8c88e27094c6d8a27d1fca
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        ports:
+        - name: http
+          containerPort: 8081
+      - name: envoy
+        image: envoyproxy/envoy:v1.25.2
+        ports:
+        - name: http-envoy
+          containerPort: 8000
+        - name: envoy-admin
+          containerPort: 9999
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        securityContext:
+          runAsUser: 1111
+        volumeMounts:
+        - readOnly: true
+          mountPath: /config
+          name: specia-portal-proxy-config
+        args:
+        - "envoy"
+        - "--config-path"
+        - "/config/envoy.yaml"
+      - name: opa-envoy
+        image: openpolicyagent/opa:latest-envoy
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        securityContext:
+          runAsUser: 1111
+        volumeMounts:
+        - readOnly: true
+          mountPath: /policy
+          name: specia-portal-opa-policy
+        - readOnly: true
+          mountPath: /config
+          name: specia-portal-opa-envoy-config
+        args:
+        - "run"
+        - "--server"
+        - "--config-file=/config/config.yaml"
+        - "--addr=localhost:8181"
+        - "--diagnostic-addr=0.0.0.0:8282"
+        - "--ignore=.*"
+        - "/policy/policy.rego"
+        livenessProbe:
+          httpGet:
+            path: /health?plugins
+            scheme: HTTP
+            port: 8282
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health?plugins
+            scheme: HTTP
+            port: 8282
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        ports:
+        - name: http-opa
+          containerPort: 9191
+      volumes:
+      - name: specia-portal-proxy-config
+        configMap:
+          name: specia-portal-proxy-config
+      - name: specia-portal-opa-policy
+        configMap:
+          name: specia-portal-opa-policy
+      - name: specia-portal-opa-envoy-config
+        configMap:
+          name: specia-portal-opa-envoy-config
+---
+############################################################
+# Example configuration to bootstrap OPA-Envoy sidecars.
+############################################################
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: specia-portal-opa-envoy-config
+data:
+  config.yaml: |
+    plugins:
+      envoy_ext_authz_grpc:
+        addr: :9191
+        path: envoy/authz/allow
+        enable-reflection: true
+        dry-run: false
+    decision_logs:
+      console: true
+
+    distributed_tracing:
+      type: grpc
+      address: tobs-opentelemetry-collector.observability.svc:4317
+      service_name: specia-portal.opa
+      sample_percentage: 100
+      encryption: "off"
+      allow_insecure_tls: true
+---
+######################################################################
+# Envoy Config with External Authorization filter that will query OPA.
+######################################################################
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: specia-portal-proxy-config
+data:
+  envoy.yaml: |
+    admin:
+      access_log_path: "/tmp/admin_access.log"
+      address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: 9999
+    static_resources:
+      secrets:
+      - name: token
+        generic_secret:
+          secret:
+            inline_string: "~Qq8Q~X73SlmczqCJ6IRQ5TyX7CO9PWqBNF8xaRq"
+      - name: hmac
+        generic_secret:
+          secret:
+            inline_string: "~Qq8Q~X73SlmczqCJ6IRQ5TyX7CO9PWqBNF8xaRq"
+      listeners:
+      - address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: 8000
+        filter_chains:
+        - filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              generate_request_id: true
+              tracing:
+                provider:
+                  name: envoy.tracers.opentelemetry
+                  typed_config:
+                    "@type": type.googleapis.com/envoy.config.trace.v3.OpenTelemetryConfig
+                    grpc_service:
+                      envoy_grpc:
+                        cluster_name: opentelemetry_collector
+                      timeout: 0.250s
+                    service_name: portal.envoy
+              codec_type: AUTO
+              stat_prefix: ingress_http
+              route_config:
+                name: local_route
+                virtual_hosts:
+                - name: specia-portal
+                  domains:
+                  - "*"
+                  routes:
+                  - match:
+                      prefix: "/api/v1"
+                    route:
+                      cluster: upstream-platform-server
+                      prefix_rewrite: "/"
+                  - match:
+                      prefix: "/"
+                    route:
+                      cluster: upstream-specia-portal
+              http_filters:
+              - name: envoy.filters.http.oauth2
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.oauth2.v3.OAuth2
+                  config:
+                    token_endpoint:
+                      cluster: oauth
+                      uri: "https://login.microsoftonline.com/41f6223d-cc05-4c3d-8f5d-2f29bcc7f262/oauth2/v2.0/token"
+                      timeout: 5s
+                    authorization_endpoint: "https://login.microsoftonline.com/41f6223d-cc05-4c3d-8f5d-2f29bcc7f262/oauth2/v2.0/authorize"
+                    redirect_uri: "https://specia-portal.platform.specia.ai/auth/oidc_callback"
+                    # redirect_uri: "http://localhost:8000/auth/oidc_callback"
+                    redirect_path_matcher:
+                      path:
+                        exact: /auth/oidc_callback
+                    signout_path:
+                      path:
+                        exact: /auth/logout
+                    forward_bearer_token: true
+                    credentials:
+                      client_id: "9dfbd5d2-6f15-42b7-bf55-0e74ab247043"
+                      token_secret:
+                        name: token
+                      hmac_secret:
+                        name: hmac
+                    auth_scopes:
+                    - openid
+                    - email
+                    - profile
+                    - User.Read
+              - name: envoy.filters.http.jwt_authn
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
+                  providers:
+                    azuread:
+                      audiences:
+                      - "9dfbd5d2-6f15-42b7-bf55-0e74ab247043" # Specia Platform Azure Application ID
+                      forward: true
+                      forward_payload_header: x-jwt-payload
+                      jwt_cache_config:
+                        jwt_cache_size: 1024
+                      from_cookies:
+                      - IdToken
+                      issuer: "https://login.microsoftonline.com/41f6223d-cc05-4c3d-8f5d-2f29bcc7f262/v2.0"
+                      remote_jwks:
+                        http_uri:
+                          uri: "https://login.microsoftonline.com/41f6223d-cc05-4c3d-8f5d-2f29bcc7f262/discovery/v2.0/keys"
+                          cluster: oauth
+                          timeout: 5s
+                        cache_duration: 600s
+                        retry_policy:
+                          retry_back_off:
+                            base_interval: 0.01s
+                            max_interval: 20s
+                          num_retries: 1
+                  rules:
+                  - match:
+                      prefix: /
+                    requires:
+                      provider_name: azuread
+              - name: envoy.ext_authz
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+                  with_request_body:
+                    max_request_bytes: 32768
+                    allow_partial_message: true
+                  failure_mode_allow: false
+                  grpc_service:
+                    google_grpc:
+                      target_uri: 127.0.0.1:9191
+                      stat_prefix: ext_authz
+                    timeout: 0.5s
+                  transport_api_version: V3
+              - name: envoy.filters.http.router
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+      clusters:
+      - name: upstream-platform-server
+        connect_timeout: 2s
+        type: STRICT_DNS
+        lb_policy: ROUND_ROBIN
+        load_assignment:
+          cluster_name: upstream-platform-server
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: platform-server
+                    port_value: 8000
+      - name: upstream-specia-portal
+        connect_timeout: 2s
+        type: STRICT_DNS
+        lb_policy: ROUND_ROBIN
+        load_assignment:
+          cluster_name: upstream-specia-portal
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: 127.0.0.1
+                    port_value: 8081
+      - name: oauth
+        connect_timeout: 2s
+        type: STRICT_DNS
+        lb_policy: ROUND_ROBIN
+        dns_lookup_family: V4_ONLY
+        load_assignment:
+          cluster_name: oauth
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: login.microsoftonline.com
+                    port_value: 443
+        transport_socket:
+          name: envoy.transport_sockets.tls
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+            sni: login.microsoftonline.com
+      - name: opentelemetry_collector
+        type: STRICT_DNS
+        lb_policy: ROUND_ROBIN
+        typed_extension_protocol_options:
+          envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+            "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+            explicit_http_config:
+              http2_protocol_options: {}
+        load_assignment:
+          cluster_name: opentelemetry_collector
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: tobs-opentelemetry-collector.observability.svc
+                    port_value: 4317
+---
+############################################################
+# Example policy to enforce into OPA-Envoy sidecars.
+############################################################
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: specia-portal-opa-policy
+data:
+  policy.rego: |
+    package envoy.authz
+    import future.keywords.if
+    import input.attributes.request.http as http_request
+
+    default allow := true
+
+    allow if {
+      unprotected
+    }
+
+    # HTTP Methods
+    is_post if http_request.method == "POST"
+    is_get if http_request.method == "GET"
+    is_put if http_request.method == "PUT"
+    is_delete if http_request.method == "DELETE"
+    # Route Groups
+    is_digitalworkers if glob.match("/digitalworkers*", [], http_request.path)
+    # Route Endpoints
+    is_ico if http_request.path == "/favicon.ico"
+    is_logo if http_request.path == glob.match("/logo*", [], http_request.path)
+    is_js if http_request.path == glob.match("/static/js/*.js", [], http_request.path)
+    is_js_base if http_request.path == glob.match("/*.js", [], http_request.path)
+    is_css if http_request.path == glob.match("/static/css/*.css", [], http_request.path)
+    is_css_base if http_request.path == glob.match("/*.css", [], http_request.path)
+    is_png if http_request.path == glob.match("/**/*.png", [], http_request.path)
+    is_png_base if http_request.path == glob.match("/*.png", [], http_request.path)
+    is_svg if http_request.path == glob.match("/**/*.svg", [], http_request.path)
+    is_path if glob.match("*", [], http_request.path)
+    is_root if http_request.path == "/"
+
+    is_spectar_user if app.tid == "41f6223d-cc05-4c3d-8f5d-2f29bcc7f262"
+
+    bearer := payload if {
+      [_, payload, _] := io.jwt.decode(bearer_token)
+    }
+
+    bearer_token := t if {
+      v := http_request.headers.authorization
+      startswith(v, "Bearer ")
+      t := substring(v, count("Bearer "), -1)
+    }
+
+    app := payload if {
+      t := base64url.decode(app_token)
+        payload := json.unmarshal(t)
+    }
+
+    app_token := v if {
+      v := http_request.headers["x-jwt-payload"]
+    }
+
+    # No authorization required for favicon.ico endpoint
+    unprotected {
+      is_ico
+    }
+    unprotected {
+      is_logo
+    }
+    unprotected {
+      is_js
+    }
+    unprotected {
+      is_css
+    }
+    unprotected {
+      is_js_base
+    }
+    unprotected {
+      is_css_base
+    }
+    unprotected {
+      is_png
+    }
+    unprotected {
+      is_png_base
+    }
+    unprotected {
+      is_svg
+    }
+    # No authorization required for "/index.html" endpoint
+    unprotected {
+      is_root
+    }
+    unprotected {
+      is_path
+    }
+
+    # Allow authenticated spectar user to access routes in the digitalworkers group using GET requests
+    protected_action_allowed {
+      is_get
+      is_spectar_user
+      is_digitalworkers
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: specia-platform
+    app.kubernetes.io/name: specia-portal
+    app.kubernetes.io/version: 0.1.0
+  name: specia-portal
+  namespace: platform-develop
+spec:
+  ports:
+  - name: http-web
+    port: 80
+    protocol: TCP
+    appProtocol: http
+    targetPort: 8000
+  selector:
+    app.kubernetes.io/instance: specia-platform
+    app.kubernetes.io/name: specia-portal
+    app.kubernetes.io/version: 0.1.0
+  sessionAffinity: None
+  type: ClusterIP
