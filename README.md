@@ -1,4 +1,4 @@
-# Specia Portal
+# Specia Accountant
 
 [![Build Status](https://dev.azure.com/SpectarRPA/SpectarRPA/_apis/build/status/SpeciaPortal?branchName=master)](https://dev.azure.com/SpectarRPA/SpectarRPA/_build/latest?definitionId=9&branchName=master)
 
