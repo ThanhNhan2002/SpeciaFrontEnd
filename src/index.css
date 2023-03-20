@@ -5,13 +5,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(250, 250, 250);
+  background-color: rgba(17,10,35,255);
+  font-family: 'Jost', sans-serif;
+  color: white;
 }
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 
 
 .btn-primary {
@@ -30,6 +32,17 @@ code {
   --bs-btn-disabled-bg: #0d6efd;
   --bs-btn-disabled-border-color: #0d6efd;
 }
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(166, 166, 166) !important;
+  font-weight: 500;
+}
+
+input {
+  color: white !important
+}
+
+
 
 .alert-success {
   --bs-alert-bg: transparent;

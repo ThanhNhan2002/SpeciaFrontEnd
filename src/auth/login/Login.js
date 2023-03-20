@@ -33,12 +33,12 @@ export default function Login() {
                 <p style={{fontSize: '2.5rem'}}>Sign In</p>
                 <div style={{textAlign: 'left', width: '30vw', marginLeft: 'auto', marginRight: 'auto', marginTop: '50px'}}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control style={{height: '50px'}} type="email" placeholder="Enter email" />
+                        <Form.Label style={{fontWeight: '700', fontSize: '1.1rem'}}>Email Address</Form.Label>
+                        <Form.Control style={{height: '50px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem'}} type="email" placeholder="Email address" />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control style={{height: '50px'}} type="password" placeholder="Password" />
+                        <Form.Label style={{fontWeight: '700', fontSize: '1.1rem'}}>Password</Form.Label>
+                        <Form.Control style={{height: '50px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem'}} type="password" placeholder="Password" />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                         <Form.Check style={{marginTop: '20px'}} type="checkbox" label="Remember Password" />

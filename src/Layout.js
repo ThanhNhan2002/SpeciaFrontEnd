@@ -41,12 +41,12 @@ function Layout() {
                 <div style={{ flex: 1, justifyContent: 'center', display: 'flex', flexDirection: 'column' }}>
                   <li style={{ paddingLeft: "25px", paddingRight: "30px", paddingTop: "20px", paddingBottom: "20px", marginTop: "20px", marginBottom: "20px", borderLeft: location.pathname.includes('digitalworkers') ? '5px solid grey' : '5px solid transparent' }}>
                     <Link to="/">
-                      <img src={require('./resources/digitalworkers.png')} alt="Digital assistants"/>
+                      <img style={{filter: 'invert(1)'}} src={require('./resources/digitalworkers.png')} alt="Digital assistants"/>
                     </Link>
                   </li>
                   <li style={{ paddingLeft: "25px", paddingRight: "30px", paddingTop: "20px", paddingBottom: "20px", marginTop: "20px", marginBottom: "20px", borderLeft: location.pathname.includes('marketplace') ? '5px solid grey' : '5px solid transparent' }}>
                     <Link to="/reports">
-                      <img src={require('./resources/marketplace.png')} alt="Reports"/>
+                      <img style={{filter: 'invert(1)'}} src={require('./resources/marketplace.png')} alt="Reports"/>
                     </Link>
                   </li>
                 </div>
