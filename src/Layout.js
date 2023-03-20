@@ -32,7 +32,7 @@ function Layout() {
               <ul style={{ listStyleType: "none", margin: "0", padding: 0, display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <li style={{ marginLeft: "auto", marginRight: "auto", marginTop: "40px", marginBottom: "40px" }}>
                   <button type="button" class="btn btn-secondary" data-bs-toggle="dropdown" aria-expanded="false" style={{ backgroundColor: 'transparent', border: 0, padding: 0 }}>
-                    <img width="40px" src={require('./resources/UserAvatar.png')} style={{ border: "1px solid black", borderRadius: '50px' }} alt="User avatar"/>
+                    <img width="40px" src={require('./resources/UserAvatar.png')} style={{ border: "1px solid white", borderRadius: '50px' }} alt="User avatar"/>
                   </button>
                   <ul style={{ paddingLeft: '15px' }} class="dropdown-menu">
                     <li style={{ cursor: 'pointer' }} onClick={logout}>Log out</li>
