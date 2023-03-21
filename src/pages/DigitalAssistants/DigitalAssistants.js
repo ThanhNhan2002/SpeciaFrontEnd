@@ -11,7 +11,11 @@ export default () => {
 
     const [ isReporterModalShow, setReporterModalShow ] = useState(false)
 
+    const [ isCreatorModalShow, setCreatorModalShow ] = useState(false)
+
     const [ reporterRequest, setReporterRequest ] = useState({})
+
+    const [ creatorRequest, setCreatorRequest ] = useState({})
 
     function openReporterModal() {
         setReporterRequest({
@@ -23,18 +27,23 @@ export default () => {
             periodTo: null
         
         })
-        // console.log(request)
-        // setReporterModalShow(true);
     }
 
     function closeReporterModal() {
     setReporterModalShow(false);
     }
 
-    const [ isCreatorModalShow, setCreatorModalShow ] = useState(false)
-
     function openCreatorModal() {
-        setCreatorModalShow(true);
+
+        setCreatorRequest({
+            isNewUser: true,
+            isATOSetup: false,
+            isXeroSetup: false,
+            customersSelected: [],
+            reportTypesSelected: [],
+            financialYear: null
+        
+        })
     }
 
     function closeCreatorModal() {
@@ -46,6 +55,13 @@ export default () => {
           setReporterModalShow(true);
         }
     }, [reporterRequest]);
+
+    useEffect(() => {
+        console.log(creatorRequest)
+        if (JSON.stringify(creatorRequest) != '{}') {
+          setCreatorModalShow(true);
+        }
+    }, [creatorRequest]);
 
 
     return (
@@ -86,7 +102,7 @@ export default () => {
 
         <ATOReporter isShow={isReporterModalShow} onClose={closeReporterModal} request={reporterRequest}/>
 
-        <WorkpaperCreator isShow={isCreatorModalShow} onClose={closeCreatorModal}/>
+        <WorkpaperCreator isShow={isCreatorModalShow} onClose={closeCreatorModal} request={creatorRequest}/>
 
         </>
         

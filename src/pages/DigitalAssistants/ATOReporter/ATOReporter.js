@@ -16,15 +16,15 @@ import Period from './Period';
 import Processing from './Processing';
 
 
-// const steps = ['intro', 'ato-setup', 'customer-select', 'select-doc-types', 'period']
-
 
 export default (props) => {
 
 
     const [ steps, setSteps ] = useState([])
 
-    const [request, setRequest] = useState(props.request)
+    const [requestTemplate, setRequestTemplate] = useState(props.request)
+
+    const [request, setRequest] = useState(requestTemplate)
 
     const [currentStep, setCurrentStep] = useState(0)
 
@@ -57,34 +57,70 @@ export default (props) => {
         navigate('/reports')
     }
 
+    function updateAtoAccessStatus(ato_access_status){
+        console.log(request)
+        setRequest((oldState) => {
+            oldState.isATOSetup = ato_access_status
+            return oldState
+        })
+    }
+
+    function updateCustomesSelected(newCustomersList){
+        setRequest((oldState) => {
+            oldState.customersSelected = newCustomersList
+            return oldState
+        })
+    }
+
+    function updateTypesSelected(newTypesList){
+        setRequest((oldState) => {
+            oldState.reportTypesSelected = newTypesList
+            return oldState
+        })
+    }
+
+    function updatePeriod(startDate, endDate){
+        setRequest((oldState) => {
+            oldState.periodFrom = startDate
+            oldState.periodTo = endDate
+            return oldState
+        })
+    }
+
     useEffect(() => {
-        setRequest(props.request)
+        setRequestTemplate(props.request)
       }, [props.request]);
 
-      useEffect(() => {
+    useEffect(() => {
         let requiredSteps = []
-        if(request.isNewUser){
+        console.log(requestTemplate)
+        if(requestTemplate.isNewUser){
             requiredSteps.push('intro')
         }
-        if(!request.isATOSetup){
+        if(!requestTemplate.isATOSetup){
             requiredSteps.push('ato-setup')
         }
         requiredSteps = requiredSteps.concat(['customer-select', 'select-doc-types', 'period'])
+        console.log(requiredSteps)
         setSteps(requiredSteps)
-      }, [request])
+        setRequest(requestTemplate)
+      }, [requestTemplate])
 
 
     return (
         <Modal show={props.isShow} fullscreen={true} onHide={closeModal}>
             <Modal.Header style={{borderBottom: 0, marginTop: '15px', marginLeft: '15px', marginRight: '15px'}} closeButton>
-                <Modal.Title style={{color: '#ee7170', fontSize: '2rem'}}>Marvin - The ATO Reporter</Modal.Title>
+                <Modal.Title style={{color: '#ee7170', fontSize: '2rem'}}>
+                    <img width="40px" src='https://specia.ai/wp-content/uploads/2021/11/huge-circle.svg' style={{ borderRadius: '50px', margin: 'auto 0'}} alt="User avatar"/>
+                    <span style={{marginLeft: '25px', paddingTop: '10px'}}>Marvin - The ATO Reporter</span>
+                    </Modal.Title>
             </Modal.Header>
             <Modal.Body style={{margin: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
                 { steps[currentStep]== 'intro' && <Intro/>}
-                { steps[currentStep]== 'ato-setup' && <ATOSetup/>}
-                { steps[currentStep]== 'customer-select' && <CustomerSelection/>}
-                { steps[currentStep]== 'select-doc-types' && <DocTypeSelection/>}
-                { steps[currentStep]== 'period' && <Period/>}
+                { steps[currentStep]== 'ato-setup' && <ATOSetup onStatusUpdate={updateAtoAccessStatus}/>}
+                { steps[currentStep]== 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected}/>}
+                { steps[currentStep]== 'select-doc-types' && <DocTypeSelection request={request} onUpdateTypesSelected={updateTypesSelected}/>}
+                { steps[currentStep]== 'period' && <Period request={request} onUpdatePeriod={updatePeriod}/>}
                 { showProcessing && <Processing/>}
             </Modal.Body>
             <Modal.Footer style={{borderTop: 0, marginBottom: '15px', marginLeft: '15px', marginRight: '15px'}}>
