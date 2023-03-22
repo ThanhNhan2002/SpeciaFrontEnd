@@ -42,7 +42,6 @@ export default function ReportList() {
 
   return (
     <>
-  
         <div style={{padding: '40px 130px 0px 90px'}}>
           <div style={{margin:'0 0 50px 0'}}>
             <h2>
@@ -82,59 +81,63 @@ export default function ReportList() {
                     <div className="col-1">
                       <Form.Check inline type='checkbox' />
                     </div>
-                    <Collapse in={open.includes(customer.id)}>
-                      <div style={{padding:'0px 0 0 184px', margin:'30px 0 30px 0'}}>
-                        <div className="container">
-                          <div className="row" style={{fontSize:'15px'}}>
-                            <div className="col-2" >
-                              <p >Report ID</p>
-                            </div>
-                            <div className="col-2">
-                              Report Type
-                            </div>
-                            <div className="col-2">
-                              From Date
-                            </div>
-                            <div className="col-2">
-                              To Date
-                            </div>       
-                            <div className="col-2">
-                              
-                            </div>     
-                            <div className="col-2" style={{textAlign:'right'}}>
-                            
-                            </div>   
-
-                            {reportTypes.map((reportType, index)=> (
+              
+                      <Collapse in={open.includes(customer.id)}>
+                        <div>
+                          <div style={{padding:'0px 0 0 184px', margin:'30px 0 30px 0'}}>
+                            <div className="container">
                               <div className="row" style={{fontSize:'15px'}}>
                                 <div className="col-2" >
-                                  <p > {index+1}</p>
+                                  <p >Report ID</p>
                                 </div>
                                 <div className="col-2">
-                                  {reportType}
+                                  Report Type
                                 </div>
                                 <div className="col-2">
-                                  11-02-2023
+                                  From Date
                                 </div>
                                 <div className="col-2">
-                                  15-02-2023
+                                  To Date
                                 </div>       
                                 <div className="col-2">
-                                  <Link to='' style={{color:'#ee7170'}}>
-                                    See Report
-                                  </Link>
                                   
                                 </div>     
                                 <div className="col-2" style={{textAlign:'right'}}>
-                                  <Form.Check inline type='checkbox' />
-                                </div>  
-                              </div>
-                            ))}
+                                
+                                </div>   
 
-                          </div>
+                                {reportTypes.map((reportType, index)=> (
+                                  <div className="row" style={{fontSize:'15px'}}>
+                                    <div className="col-2" >
+                                      <p > {index+1}</p>
+                                    </div>
+                                    <div className="col-2">
+                                      {reportType}
+                                    </div>
+                                    <div className="col-2">
+                                      11-02-2023
+                                    </div>
+                                    <div className="col-2">
+                                      15-02-2023
+                                    </div>       
+                                    <div className="col-2">
+                                      <Link to='' style={{color:'#ee7170'}}>
+                                        See Report
+                                      </Link>
+                                      
+                                    </div>     
+                                    <div className="col-2" style={{textAlign:'right'}}>
+                                      <Form.Check inline type='checkbox' />
+                                    </div>  
+                                  </div>
+                                ))}
+
+                              </div>
+                            </div>
+                            </div>
                         </div>
-                      </div>
-                    </Collapse>
+                      </Collapse>
+                    
                   </div>
                 </>
             )) }
@@ -145,8 +148,6 @@ export default function ReportList() {
             </Button>
           </div>
         </div>
-
-
     </>
   )
 }
