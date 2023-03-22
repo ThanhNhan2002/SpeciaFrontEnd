@@ -13,29 +13,39 @@ export default function Registration()  {
 
     return (
         <>
-            <div style={{textAlign: 'center', marginTop: '15vh'}}>
-                <p style={{fontSize: '2.5rem'}}>Registration</p>
+            <div style={{textAlign: 'center', paddingBottom: '10vh'}}>
+                <img width="150px" src='https://specia.ai/wp-content/uploads/2021/11/huge-circle.svg' style={{ borderRadius: '50px', marginTop: '10vh', marginBottom: '5vh' }}/>
+                <p style={{fontSize: '1.7rem', fontWeight: '500'}}>Create a new account</p>
                 <div style={{textAlign: 'left', width: '30vw', marginLeft: 'auto', marginRight: 'auto', marginTop: '50px'}}>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control style={{height: '50px'}} type="email" placeholder="Enter email" />
+                    <Form.Group style={{marginBottom: '30px'}} controlId="formBasicEmail">
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="email" placeholder="Enter email" />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control style={{height: '50px'}} type="password" placeholder="Password" />
+                    <Form.Group style={{marginBottom: '30px'}} controlId="formBasicPassword">
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="password" placeholder="Password" />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Phone Number</Form.Label>
-                        <Form.Control style={{height: '50px'}} type="text" placeholder="Phone Number" />
+                    <Form.Group style={{marginBottom: '30px'}}>
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Company Name" />
+                    </Form.Group>
+                    <Form.Group style={{marginBottom: '30px'}}>
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="ABN" />
+                    </Form.Group>
+                    <Form.Group style={{marginBottom: '30px'}}>
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Tax Agent Number" />
+                    </Form.Group>
+                    <Form.Group style={{marginBottom: '30px'}}>
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Phone Number" />
+                    </Form.Group>
+                    <Form.Group style={{marginBottom: '30px'}}>
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Address" />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check style={{marginTop: '20px'}} type="checkbox" label="By signing up you accept the Term of Service and Privacy Policy" />
+                        <Form.Check style={{marginTop: '20px'}} type="checkbox" label="By signing up you accept the Term of Service and Privacy Policy" checked/>
                     </Form.Group>
                     <div style={{marginTop: '40px', textAlign: 'center'}}>
-                        <Button style={{width: '100%', marginBottom: '30px', height: '50px'}} variant="secondary" type="button">
+                        <Button style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginBottom: '30px', width: '100%'}} variant="primary" type="button">
                             Sign up
                         </Button>
-                        <p>Already have an account? <Link to="/auth/login"><span style={{fontWeight: '600'}}>Sign in</span></Link></p>
+                        <p>Already have an account? <Link style={{textDecoration:'none'}} to="/auth/login"><span style={{fontWeight: '600', color: '#eb5b5b'}}>Sign in</span></Link></p>
                     </div>
                 </div>
             </div>
