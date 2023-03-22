@@ -4,6 +4,8 @@ import Example from './Example'
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import React, { useState } from 'react';
+
+import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 
 const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789'},
@@ -40,24 +42,26 @@ export default function ReportList() {
 
   return (
     <>
-      <div style={{padding:"40px 130px 0 1px"}}>  
-        <h2>
-          Reports
-        </h2>
-        <div style={{padding: '100px'}}>
+  
+        <div style={{padding: '40px 130px 0px 90px'}}>
+          <div style={{margin:'0 0 50px 0'}}>
+            <h2>
+              Reports
+            </h2>
+          </div>
           <div className="container">
-            <div className="row border-bottom" style={{ marginBottom:'20px', padding:'0 0 20px 0', fontSize:'20px'}}>  
+            <div className="row border-bottom" style={{ marginBottom:'20px', padding:'0 0 20px 0', fontSize:'18px'}}>  
               <div className="col-1">
 
               </div>
-              <div className="col-1">
-                Id
+              <div className="col-1" style={{ color:"#ee7170" }}>
+                ID
               </div>
-              <div className="col-9">
-                Name
+              <div className="col-9" style={{ color:"#ee7170"  }}>
+                Customer Name
               </div>
               <div className="col-1">
-                Select
+                
               </div>
             </div>
 
@@ -116,7 +120,10 @@ export default function ReportList() {
                                   15-02-2023
                                 </div>       
                                 <div className="col-2">
-                                  See Report
+                                  <Link to='' style={{color:'#ee7170'}}>
+                                    See Report
+                                  </Link>
+                                  
                                 </div>     
                                 <div className="col-2" style={{textAlign:'right'}}>
                                   <Form.Check inline type='checkbox' />
@@ -132,8 +139,14 @@ export default function ReportList() {
                 </>
             )) }
           </div>
+          <div style={{textAlign:'right', margin:'40px 0 0 0'}}>
+            <Button style={{padding: '15px 10px 15px 10px', borderRadius: '50px', width:'280px'}} variant="primary">
+              Download selected reports
+            </Button>
+          </div>
         </div>
-      </div>
+
+
     </>
   )
 }
