@@ -3,7 +3,12 @@ import { React, useState, useEffect } from 'react'
 import { Form } from 'react-bootstrap'
 
 
-const financialYears = ['2017', '2018', '2019', '2020', '2021', '2022', '2023']
+
+const financialYears = []
+
+for(let year=2023; year>1969; year--){
+    financialYears.push(year.toString())
+}
 
 export default (props) => {
 

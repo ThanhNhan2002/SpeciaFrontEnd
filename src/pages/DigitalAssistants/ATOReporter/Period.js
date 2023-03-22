@@ -32,9 +32,6 @@ export default (props) => {
             endDate = `${dates[1].$y}-${(dates[1].$M+1)}-${dates[1].$D}`
         }
 
-        console.log(startDate)
-        console.log(endDate)
-
         setStartDate(startDate)
         setEndDate(endDate)
     }

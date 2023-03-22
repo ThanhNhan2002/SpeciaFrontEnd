@@ -14,6 +14,8 @@ import CustomerSelection from './CustomerSelection';
 import Processing from './Processing';
 import XeroSetup from './XeroSetup';
 import FinancialYear from './FinancialYear';
+import TAN from './TAN';
+import ABN from './ABN';
 
 
 
@@ -53,6 +55,7 @@ export default (props) => {
     function submitRequest(){
         setCurrentStep(currentStep => currentStep+1)
         setShowProcessing(true)
+        console.log(request)
     }
 
     function onSeeAllRequests(){
@@ -96,6 +99,21 @@ export default (props) => {
         })
     }
 
+
+    function updateTan(tan){
+        setRequest((oldState) => {
+            oldState.TAN = tan
+            return oldState
+        })
+    }
+
+    function updateAbn(abn){
+        setRequest((oldState) => {
+            oldState.ABN = abn
+            return oldState
+        })
+    }
+
     useEffect(() => {
         setRequestTemplate(props.request)
         console.log()
@@ -112,6 +130,12 @@ export default (props) => {
         }
         if(!requestTemplate.isXeroSetup){
             requiredSteps.push('xero-setup')
+        }
+        if(!requestTemplate.ABN){
+            requiredSteps.push('abn')
+        }
+        if(!requestTemplate.TAN){
+            requiredSteps.push('tan')
         }
         requiredSteps = requiredSteps.concat(['customer-select', 'financial-year'])
         console.log(requiredSteps)
@@ -132,6 +156,8 @@ export default (props) => {
                 { steps[currentStep]== 'intro' && <Intro/>}
                 { steps[currentStep]== 'ato-setup' && <ATOSetup onStatusUpdate={updateAtoAccessStatus}/>}
                 { steps[currentStep]== 'xero-setup' && <XeroSetup onStatusUpdate={updateXeroAccessStatus}/>}
+                { steps[currentStep]== 'abn' && <ABN request={request} onUpdateAbn={updateAbn}/>}
+                { steps[currentStep]== 'tan' && <TAN request={request} onUpdateTan={updateTan}/>}
                 { steps[currentStep]== 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected}/>}
                 { steps[currentStep]== 'financial-year' && <FinancialYear request={request} onUpdateYear={updateFinancialYear}/>}
                 { showProcessing && <Processing/>}

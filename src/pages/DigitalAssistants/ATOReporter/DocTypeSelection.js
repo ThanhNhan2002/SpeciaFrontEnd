@@ -9,23 +9,20 @@ const reportTypes = [
         abbr: 'BAS'
     },
     {
-        name: 'Integrated Client Account',
-        abbr: 'ICA'
+        name: 'Instalment Activity Statement',
+        abbr: 'IAS'
     },
+    ,
     {
-        name: 'Income Tax Assessment',
-        abbr: 'ITA'
-    },
-    {
-        name: 'General Interest',
-        abbr: 'GI'
-    },
+        name: 'Tax',
+        abbr: 'T'
+    }
 
 ]
 
 export default (props) => {
 
-    const [selectedTypes, setSelectedTypes ] = useState(props.request.reportTypesSelected)
+    const [selectedTypes, setSelectedTypes] = useState(props.request.reportTypesSelected)
 
 
     function typeAddedDeleted(type){

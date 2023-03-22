@@ -14,6 +14,8 @@ import CustomerSelection from './CustomerSelection';
 import DocTypeSelection from './DocTypeSelection';
 import Period from './Period';
 import Processing from './Processing';
+import TAN from './TAN';
+import ABN from './ABN';
 
 
 
@@ -87,6 +89,20 @@ export default (props) => {
         })
     }
 
+    function updateTan(tan){
+        setRequest((oldState) => {
+            oldState.TAN = tan
+            return oldState
+        })
+    }
+
+    function updateAbn(abn){
+        setRequest((oldState) => {
+            oldState.ABN = abn
+            return oldState
+        })
+    }
+
     useEffect(() => {
         setRequestTemplate(props.request)
       }, [props.request]);
@@ -99,6 +115,12 @@ export default (props) => {
         }
         if(!requestTemplate.isATOSetup){
             requiredSteps.push('ato-setup')
+        }
+        if(!requestTemplate.ABN){
+            requiredSteps.push('abn')
+        }
+        if(!requestTemplate.TAN){
+            requiredSteps.push('tan')
         }
         requiredSteps = requiredSteps.concat(['customer-select', 'select-doc-types', 'period'])
         console.log(requiredSteps)
@@ -118,6 +140,8 @@ export default (props) => {
             <Modal.Body style={{margin: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
                 { steps[currentStep]== 'intro' && <Intro/>}
                 { steps[currentStep]== 'ato-setup' && <ATOSetup onStatusUpdate={updateAtoAccessStatus}/>}
+                { steps[currentStep]== 'abn' && <ABN request={request} onUpdateAbn={updateAbn}/>}
+                { steps[currentStep]== 'tan' && <TAN request={request} onUpdateTan={updateTan}/>}
                 { steps[currentStep]== 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected}/>}
                 { steps[currentStep]== 'select-doc-types' && <DocTypeSelection request={request} onUpdateTypesSelected={updateTypesSelected}/>}
                 { steps[currentStep]== 'period' && <Period request={request} onUpdatePeriod={updatePeriod}/>}
