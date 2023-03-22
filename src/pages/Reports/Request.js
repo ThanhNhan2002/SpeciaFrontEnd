@@ -59,7 +59,6 @@ export default function Request() {
                     <td>{request.issuedDate}</td>
                     <td>{request.status}</td>
                 </tr>
-              
             ))}
         </tbody>
       </table>
