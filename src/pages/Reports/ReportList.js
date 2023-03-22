@@ -39,6 +39,7 @@ export default function ReportList() {
   let { requestId } = useParams();
 
   const [open, setCollapse] = useState([]);
+  const [toDownload, setDownload] = useState([]);
 
   function collapseControl(customerId) {
     // open
@@ -53,6 +54,32 @@ export default function ReportList() {
         return newState
       })
     }
+  }
+
+  function downloadControl(reportID) {
+    // include
+    console.log(reportID);
+    if (!toDownload.includes(reportID)) {
+      
+      setDownload(oldState => {
+        return [...oldState, reportID]
+      })
+      // console.log(toDownload);
+    } else { //exclude
+      setDownload(oldState => {
+        let newState = oldState.filter((item) => item !== reportID);
+        return newState
+      })
+    }
+  }
+
+  function startDownload() {
+    // console.log('inStartDownload');
+    // console.log(toDownload);
+    // toDownload.map((downloadFile) => {
+    //   console.log(downloadFile)
+    //   return downloadFile
+    // })
   }
 
 
@@ -126,7 +153,7 @@ export default function ReportList() {
                                     <div className="col-2">
                                     </div>       
                                     <div className="col-1">
-                                      {index+1}
+                                      {report.reportID}
                                     </div>
                                     <div className="col-2"  style={{textAlign:'center'}}>
                                       {report.reportType}
@@ -143,7 +170,7 @@ export default function ReportList() {
                                       </Link>
                                     </div>     
                                     <div className="col-1" style={{textAlign:'center'}}>
-                                      <Form.Check inline type='checkbox' style={{margin:'0 0 0 0 '}}/>
+                                      <Form.Check onChange={downloadControl.bind(this, report.reportID)} inline type='checkbox' style={{margin:'0 0 0 0 '}}/>
                                     </div>  
                                   </>
                                 ))}
@@ -157,7 +184,7 @@ export default function ReportList() {
             )) }
           </div>
           <div style={{textAlign:'right', margin:'40px 0 0 0'}}>
-            <Button style={{padding: '15px 10px 15px 10px', borderRadius: '50px', width:'280px'}} variant="primary">
+            <Button onClick={startDownload} style={{padding: '15px 10px 15px 10px', borderRadius: '50px', width:'280px'}} variant="primary">
               Download selected reports
             </Button>
           </div>
