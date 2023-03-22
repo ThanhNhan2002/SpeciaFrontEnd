@@ -4,7 +4,7 @@ import Example from './Example'
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import React, { useState } from 'react';
-
+import Form from 'react-bootstrap/Form';
 
 const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789'},
                     {id: 2, companyName: 'Company 2', ABN: '0123456789'},
@@ -14,7 +14,7 @@ const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789'},
                     {id: 6, companyName: 'Company 6', ABN: '0123456789'},
                     ]
 
-
+const reportTypes = ['BAS', 'IAS', 'ICA', 'IAT'];
 
 
 export default function ReportList() {
@@ -46,7 +46,7 @@ export default function ReportList() {
         </h2>
         <div style={{padding: '100px'}}>
           <div className="container">
-            <div className="row border-bottom" style={{ marginBottom:'20px', padding:'0 0 20px 0'}}>  
+            <div className="row border-bottom" style={{ marginBottom:'20px', padding:'0 0 20px 0', fontSize:'20px'}}>  
               <div className="col-1">
 
               </div>
@@ -63,7 +63,7 @@ export default function ReportList() {
 
             {customers.map((customer) => (
                 <>
-                  <div className="row border-bottom" style={{ marginBottom:'20px', padding:'0 0 20px 0'}}>
+                  <div className="row border-bottom" style={{ marginBottom:'20px', padding:'0 0 20px 0', fontSize:'20px'}}>
                     <div className="col-1">                  
                       <Button onClick={collapseControl.bind(this, customer.id)} style={{ padding:'5px', height:'20px', margin:'0px', fontSize:'10px', lineHeight: '5px'}}>
                         +
@@ -76,13 +76,56 @@ export default function ReportList() {
                       {customer.companyName}
                     </div>
                     <div className="col-1">
-                      Checkbox
+                      <Form.Check inline type='checkbox' />
                     </div>
                     <Collapse in={open.includes(customer.id)}>
-                      <div id="example-collapse-text">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-                        terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
-                        labore wes anderson cred nesciunt sapiente ea proident.
+                      <div style={{padding:'0px 0 0 184px', margin:'30px 0 30px 0'}}>
+                        <div className="container">
+                          <div className="row" style={{fontSize:'15px'}}>
+                            <div className="col-2" >
+                              <p >Report ID</p>
+                            </div>
+                            <div className="col-2">
+                              Report Type
+                            </div>
+                            <div className="col-2">
+                              From Date
+                            </div>
+                            <div className="col-2">
+                              To Date
+                            </div>       
+                            <div className="col-2">
+                              
+                            </div>     
+                            <div className="col-2" style={{textAlign:'right'}}>
+                            
+                            </div>   
+
+                            {reportTypes.map((reportType, index)=> (
+                              <div className="row" style={{fontSize:'15px'}}>
+                                <div className="col-2" >
+                                  <p > {index+1}</p>
+                                </div>
+                                <div className="col-2">
+                                  {reportType}
+                                </div>
+                                <div className="col-2">
+                                  11-02-2023
+                                </div>
+                                <div className="col-2">
+                                  15-02-2023
+                                </div>       
+                                <div className="col-2">
+                                  See Report
+                                </div>     
+                                <div className="col-2" style={{textAlign:'right'}}>
+                                  <Form.Check inline type='checkbox' />
+                                </div>  
+                              </div>
+                            ))}
+
+                          </div>
+                        </div>
                       </div>
                     </Collapse>
                   </div>
