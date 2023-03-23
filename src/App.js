@@ -13,16 +13,13 @@ import {
 } from "react-router-dom";
 
 import Layout from './Layout';
-
-
 import Login from './auth/login/Login';
 import DigitalAssistants from './pages/DigitalAssistants/DigitalAssistants';
-import Reports from './pages/Reports/Reports';
-import ATOrequests from './pages/Reports/ATOrequests';
 import ProtectedRoute from './auth/ProtectedRoute'
-
 import Registration from './auth/registration/Registration'
-import ReportList from './pages/Reports/ReportList'
+import ReportList from './pages/Reports/ATOReporter/ReportList'
+import Reports from './pages/Reports/Reports';
+import ATOrequests from './pages/Reports/ATOReporter/ATOrequests';
 
 function App() {
 
