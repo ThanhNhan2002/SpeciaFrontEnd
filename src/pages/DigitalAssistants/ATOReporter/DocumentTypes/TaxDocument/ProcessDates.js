@@ -12,10 +12,12 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 
 export default (props) => {
+    
+    console.log(props.request)
 
-    const [startDate, setStartDate] = useState(props.request.periodFrom)
+    const [startDate, setStartDate] = useState(props.request.processStartDate)
 
-    const [endDate, setEndDate] = useState(props.request.periodTo)
+    const [endDate, setEndDate] = useState(props.request.processEndDate)
 
     function updatePeriod(dates){
 
@@ -44,12 +46,12 @@ export default (props) => {
       });
 
       useEffect(() => {
-        props.onUpdatePeriod(startDate, endDate)
+        props.onUpdateProcessDates(startDate, endDate)
       }, [startDate, endDate]);
 
     return (
         <>
-            <p>Please specify the period you want me to process the reports in.</p>
+            <p>Please specify the process date range</p>
             <div style={{width: '600px', paddingTop: '20px'}}>
                 <ThemeProvider theme={darkTheme}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
