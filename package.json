@@ -36,6 +36,7 @@
     ]
   },
   "dependencies": {
+    "@coreui/coreui": "^4.2.6",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.13",

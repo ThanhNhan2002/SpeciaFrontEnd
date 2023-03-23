@@ -117,3 +117,29 @@ select:focus,
 
 .modal.fade .modal-dialog {-webkit-transform: translate(0,0)scale(.5);transform: translate(0,0)scale(.7);}
 .modal.show .modal-dialog {-webkit-transform: translate(0,0)scale(1);transform: translate(0,0)scale(1);}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  /* color: var(--bs-nav-pills-link-active-color); */
+  color: rgba(17, 10, 35, 0.95);
+  background-color: #ee7170;
+}
+
+/* .nav-link:focus, .nav-link:hover {
+  color: gray;
+} */
+
+
+
+.nav {
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: rgba(255, 255, 255, 0.4);
+  --bs-nav-link-hover-color: rgba(255, 255, 255, 0.4);
+  --bs-nav-link-disabled-color: var(--bs-secondary-color);
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
