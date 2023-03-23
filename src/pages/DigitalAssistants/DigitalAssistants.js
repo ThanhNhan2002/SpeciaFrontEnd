@@ -26,8 +26,21 @@ export default () => {
             customersSelected: [],
             reportTypesSelected: [],
             periodFrom: null,
-            periodTo: null
-        
+            periodTo: null,
+            searchCode: 'All',
+            runningBalanceIndicator: false,
+            taxAccountIdentifier: null,
+            taxRoleTypeCode: null,
+            processStartDate: null,
+            processEndDate: null,
+            effectiveStartDate: null,
+            effectiveEndDate: null,
+            recordSortOrderCode: 'Ascending',
+            recordSortFieldCode: 'ProcessDate',
+            limit: null,
+            firstIdx: null,
+            runMode: 'N',
+            aggregationCode: null
         })
     }
 
