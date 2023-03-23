@@ -1,11 +1,5 @@
 import React from 'react'
-import Table from 'react-bootstrap/Table';
-import { Link } from 'react-router-dom'
-
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 const requests = [
   {requestID: 1, requestDescription: "Request Alpha", requestedDate: "11-02-2023", issuedDate: "15-02-2023", status: "Pending"},
@@ -14,7 +8,6 @@ const requests = [
   {requestID: 5, requestDescription: "Request Alpha", requestedDate: "11-02-2023", issuedDate: "15-02-2023", status: "Pending"},
   {requestID: 6, requestDescription: "Request Alpha", requestedDate: "11-02-2023", issuedDate: "15-02-2023", status: "Pending"},
   {requestID: 7, requestDescription: "Request Alpha", requestedDate: "11-02-2023", issuedDate: "15-02-2023", status: "Finished"},
-
 ]
 
 const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789'},
@@ -25,21 +18,14 @@ const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789'},
                     {id: 6, companyName: 'Company 6', ABN: '0123456789'},
                     ]
 
-export default function Request() {
-  // const history = useHistory();
+export default function Requests() {
   const navigate = useNavigate();
-
+  
   function handleClick(requestId) {
-    //history.push(`/user/${id}`);
-    // history.push(`/`);
     navigate(`/reports/ATOrequests/${requestId}`);
-    
   }
 
   return (
-  <div style={{ padding:"40px 130px 0 1px", display:"flex", flexDirection:"column"}}>  
-    <h2>All requests</h2>
-    <div>
       <table class="table table-striped table-dark table-hover" style={{marginTop: '30px'}}>
         <thead>
           <tr>
@@ -62,7 +48,5 @@ export default function Request() {
             ))}
         </tbody>
       </table>
-    </div>
-  </div>
   )
 }
