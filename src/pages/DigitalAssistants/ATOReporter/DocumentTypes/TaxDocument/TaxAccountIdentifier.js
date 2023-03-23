@@ -36,8 +36,9 @@ export default (props) => {
             <Form.Control type="text" style={{ color: 'white' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem', paddingLeft: '20px'}} value={accountIdentifier} onChange={updateAccountIdentifier} aria-label="Tax Account Identifier" placeholder='Tax Account Identifier'>
             </Form.Control>
             <br/>
+            <br/>
             <Form.Check onChange={updateRBA} inline type='checkbox' checked={isRBA}/>
-            <p>Account is a Running Balance Account - RBA</p>
+            <p style={{display: 'inline'}}>Account is a Running Balance Account</p>
             </div>
         </>
     )

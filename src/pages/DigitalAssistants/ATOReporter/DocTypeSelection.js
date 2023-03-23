@@ -50,6 +50,7 @@ export default (props) => {
         <>
             <Modal.Body style={{margin: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
                 <p>Please select the types of report you want me to process.</p>
+                <br/>
                 <div style={{marginTop: '20px'}}>
                     { reportTypes.map((report) => <div style={{display: 'flex', alignItems:'center', marginBottom: '15px'}}>
                         { selectedTypes.includes(report.abbr) && <Form.Check.Input onChange={typeAddedDeleted.bind(this, report.abbr)} type='checkbox' style={{margin: 0, borderRadius: '50px'}} checked/>}

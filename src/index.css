@@ -134,5 +134,10 @@ select:focus,
 
 }
 
+
+input[type="text"]{
+  margin: 0
+}
+
 .modal.fade .modal-dialog {-webkit-transform: translate(0,0)scale(.5);transform: translate(0,0)scale(.7);}
 .modal.show .modal-dialog {-webkit-transform: translate(0,0)scale(1);transform: translate(0,0)scale(1);}
