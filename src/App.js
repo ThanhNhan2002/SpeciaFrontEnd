@@ -20,6 +20,7 @@ import Registration from './auth/registration/Registration'
 import ReportList from './pages/Reports/ATOReporter/ReportList'
 import Reports from './pages/Reports/Reports';
 import ATOrequests from './pages/Reports/ATOReporter/ATOrequests';
+import DummyResource from './pages/DummyResource';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
                 <Route path='/reports' element={<Reports/>}></Route>
                 <Route path='/reports/ATOrequests' element={<ATOrequests/>}></Route>
                 <Route path='/reports/ATOrequests/:requestID' element={<ReportList/>}></Route>
+                <Route path='/dummyResource' element={<DummyResource/>}></Route>
               </Route>
             </Routes>
   );

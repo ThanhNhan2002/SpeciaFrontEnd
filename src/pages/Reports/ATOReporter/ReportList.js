@@ -56,6 +56,27 @@ export default function ReportList() {
       setDownload(oldState => {
         return [...oldState, reportID].sort()
       })
+
+      //get the reports object of the parent
+      const parents = customers.filter(customer => customer.id === customerId)[0]; // parent object
+      const reports = parents.reports;
+
+      //check if alll sibling checboxes is checked
+      let allSiblingsChecked = true;
+      for(let report of reports) {
+        const siblingElements = document.getElementById(`reportCheckBox${report.reportID}`);
+        if (!siblingElements.checked) {
+          allSiblingsChecked = false;
+          break;
+        }
+      };
+
+      //check if alll sibling checboxes is checked, set the parent checkbox to true
+      if (allSiblingsChecked) {
+        let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
+        parentCheckBox.checked=true;
+      };
+
     } else { //if the action is to uncheck the checkbox
       setDownload(oldState => {
         let newState = oldState.filter((item) => item !== reportID);
