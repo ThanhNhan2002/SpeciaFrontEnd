@@ -22,7 +22,7 @@ export default ({request, onBack, onSubmit}) => {
 
     return (
         <>
-        <Modal.Body style={{padding: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
+        <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
             <p>Please review your request</p>
             <br/>
             <div>
@@ -86,7 +86,7 @@ export default ({request, onBack, onSubmit}) => {
             </>}
 
          </Modal.Body>
-            <Modal.Footer style={{borderTop: 0, marginBottom: '15px', marginLeft: '15px', marginRight: '15px'}}>
+            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '100px', paddingRight: '100px', paddingTop: '50px'}}>
                 <div style={{display: 'flex', flex: 1}}>
                     <div style={{flex: 1}}>
                         <Button onClick={onBack} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">

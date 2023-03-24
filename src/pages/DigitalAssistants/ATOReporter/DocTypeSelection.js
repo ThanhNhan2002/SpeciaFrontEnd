@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 
 import Modal from 'react-bootstrap/Modal';
+import Period from './Period';
 
 
 const reportTypes = [
@@ -14,7 +15,7 @@ const reportTypes = [
         abbr: 'AS'
     },
     {
-        name: 'Tax Document',
+        name: 'Account Statement',
         abbr: 'TD'
     }
 
@@ -48,7 +49,7 @@ export default (props) => {
 
     return (
         <>
-            <Modal.Body style={{margin: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
+            <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
                 <p>Please select the types of report you want me to process.</p>
                 <br/>
                 <div style={{marginTop: '20px'}}>
@@ -58,8 +59,10 @@ export default (props) => {
                         <Form.Check.Label style={{marginLeft: '10px'}}>{report.name}</Form.Check.Label>
                     </div> )}
                 </div>
+                <br/>
+                <Period request={props.request} onUpdatePeriod={props.updatePeriod}/>
             </Modal.Body>
-            <Modal.Footer style={{borderTop: 0, marginBottom: '15px', marginLeft: '15px', marginRight: '15px'}}>
+            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '100px', paddingRight: '100px', paddingTop: '50px'}}>
                 <div style={{display: 'flex', flex: 1}}>
                     <div style={{flex: 1}}>
                         <Button onClick={props.onBack} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">

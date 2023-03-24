@@ -16,3 +16,7 @@
     font-weight: 500;
 }
 
+
+.tableField:focus{
+    box-shadow: 0!important;
+}

@@ -86,12 +86,12 @@ export default (props) => {
             let newSteps = [...oldState]
             newSteps = newSteps.filter(item => item != 'activity-statement' && item != 'tax-document' && item != 'review')
             console.log(newSteps)
-            if(newTypesList.includes('AS')){
-                newSteps.push('activity-statement')
-            }
-            if(newTypesList.includes('TD')){
-                newSteps.push('tax-document')
-            }
+            // if(newTypesList.includes('AS')){
+            //     newSteps.push('activity-statement')
+            // }
+            // if(newTypesList.includes('TD')){
+            //     newSteps.push('tax-document')
+            // }
             newSteps.push('review')
             return newSteps
         })
@@ -206,6 +206,22 @@ export default (props) => {
         })
     }
 
+
+    function updateCustomerSelectionMode(mode){
+        setRequest((oldState) => {
+            oldState.customerSelectionMode = mode
+            return oldState
+        })
+    }
+
+
+    function updateSelectedCustomerABN(abn){
+        setRequest((oldState) => {
+            oldState.selectedCustomerABN = abn
+            return oldState
+        })
+    }
+
     useEffect(() => {
         setRequestTemplate(props.request)
       }, [props.request]);
@@ -219,14 +235,7 @@ export default (props) => {
         if(!requestTemplate.isATOSetup){
             requiredSteps.push('ato-setup')
         }
-        if(!requestTemplate.ABN){
-            requiredSteps.push('abn')
-        }
-        if(!requestTemplate.TAN){
-            requiredSteps.push('tan')
-        }
-        requiredSteps = requiredSteps.concat(['customer-select', 'select-doc-types'])
-        console.log(requiredSteps)
+        requiredSteps = requiredSteps.concat(['customer-select', 'select-doc-types-period'])
         setSteps(requiredSteps)
         setRequest(requestTemplate)
       }, [requestTemplate])
@@ -245,13 +254,14 @@ export default (props) => {
                 { steps[currentStep] == 'ato-setup' && <ATOSetup onStatusUpdate={updateAtoAccessStatus} onContinue={onContinue} onBack={onBack}/>}
                 { steps[currentStep] == 'abn' && <ABN request={request} onUpdateAbn={updateAbn} onContinue={onContinue} onBack={onBack}/>}
                 { steps[currentStep] == 'tan' && <TAN request={request} onUpdateTan={updateTan} onContinue={onContinue} onBack={onBack}/>}
-                { steps[currentStep] == 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected} onContinue={onContinue} onBack={onBack}/>}
-                { steps[currentStep] == 'select-doc-types' && <DocTypeSelection 
+                { steps[currentStep] == 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected} onUpdateCustomerSelectionMode={updateCustomerSelectionMode} onUpdateSelectedCustomerABN={updateSelectedCustomerABN} onContinue={onContinue} onBack={onBack}/>}
+                { steps[currentStep] == 'select-doc-types-period' && <DocTypeSelection 
                     request={request} 
                     onUpdateTypesSelected={updateTypesSelected} 
+                    updatePeriod={updatePeriod}
                     onContinue={onContinue} 
                     onBack={onBack}/>}
-                { steps[currentStep] == 'activity-statement' && <ActivityStatement request={request} onUpdatePeriod={updatePeriod} onContinue={onContinue} onUpdateSearchCode={updateSearchCode} onBack={onBack}/>}
+                {/* { steps[currentStep] == 'activity-statement' && <ActivityStatement request={request} onUpdatePeriod={updatePeriod} onContinue={onContinue} onUpdateSearchCode={updateSearchCode} onBack={onBack}/>}
                 { steps[currentStep] == 'tax-document' && <TaxDocument 
                     request={request} 
                     onUpdateProcessDates={updateProcessDates} 
@@ -266,9 +276,8 @@ export default (props) => {
                     onUpdateLimit={updateLimit}
                     onUpdateFirstIdx={updateFirstIdx}
                     onUpdateRBA={updateRBA}
-                    />}
+                    />} */}
                 { steps[currentStep] == 'review' && <Review request={request} onSubmit={submitRequest} onBack={onBack}/>}
-                {/* { steps[currentStep]== 'period' && <Period request={request} onUpdatePeriod={updatePeriod}/>} */}
                 { showProcessing && <Processing closeModal={closeModal} onSeeAllRequests={onSeeAllRequests}/>}
             {/* </Modal.Body>
             <Modal.Footer style={{borderTop: 0, marginBottom: '15px', marginLeft: '15px', marginRight: '15px'}}>
