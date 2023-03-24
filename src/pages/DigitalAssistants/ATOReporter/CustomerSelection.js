@@ -24,6 +24,11 @@ export default (props) => {
 
     const [selectedUsers, setSelectedUsers ] = useState(props.request.customersSelected)
 
+    const [ isSingleCust, setIsSingleCust ] = useState(true)
+
+
+    const [ selectedCustomerABN, setSelectedCustomerABN ] = useState(props.request.selectedCustomerABN)
+
 
     function userAddedDeleted(customer){
         let newUserList = [...selectedUsers]
@@ -36,35 +41,89 @@ export default (props) => {
         
     }
 
+    function selectSingle(){
+        setIsSingleCust(true)
+        props.onUpdateCustomerSelectionMode = 'S'
+    }
+
+    function selectMultiple(){
+        setIsSingleCust(false)
+        props.onUpdateCustomerSelectionMode = 'S'
+    }
+
+    function changeSelectedCustomerABN(e){
+        setSelectedCustomerABN(e.target.value)
+    }
+
     useEffect(() => {
         props.onUpdateCustomersSelected(selectedUsers)
     }, [selectedUsers]);
 
+    useEffect(() => {
+        props.onUpdateSelectedCustomerABN(selectedCustomerABN)
+    }, [selectedCustomerABN]);
+
     return (
         <>  
-            <Modal.Body style={{margin: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
-                <p>Please select all the customers you want me to process the reports for.</p>
-                <Table striped bordered hover variant="dark" style={{marginTop: '30px'}}>
-                    <thead>
-                        <tr>
-                        <th></th>
-                        <th>Company Name</th>
-                        <th>ABN</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {customers.map((customer) => (
+            <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
+                <p>Please select the customers you want me to process the reports for.</p>
+                <br/>
+                <div style={{display: 'flex', flexDirection: 'row', width: '40%'}}>
+                    <div style={{display: 'flex', alignItems:'flex-start', paddingBottom: '20px', flex: 1}}>
+                        <Form.Check
+                        type='radio'
+                        style={{paddingTop: '3px'}}
+                        onChange={selectSingle}
+                        checked={isSingleCust}  />
+                        <div style={{flex: '1', marginLeft: '20px'}}>
+                            <p style={{margin: '0'}}>Single Customer</p>
+                        </div>
+                    </div>
+                    <div style={{display: 'flex', alignItems:'flex-start', paddingBottom: '20px', flex: 1}}>
+                        <Form.Check
+                        type='radio'
+                        style={{paddingTop: '3px'}}
+                        onChange={selectMultiple}
+                        checked={!isSingleCust} />
+                        <div style={{flex: '1', marginLeft: '20px'}}>
+                            <p style={{margin: '0'}}>Multiple Customers</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* <br/> */}
+
+                { isSingleCust && <div style={{width: '40%'}}>
+                    <p style={{fontSize: '1.2rem'}}>Please provide customer ABN</p>
+                    <Form.Control disabled={!isSingleCust} onChange={changeSelectedCustomerABN} value={selectedCustomerABN} type="text" style={{ color: 'white' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem', paddingLeft: '20px'}} aria-label="ABN" placeholder='ABN'>
+                    </Form.Control>
+                </div>}
+
+                { !isSingleCust && 
+                
+                <div>
+                    <p style={{fontSize: '1.2rem'}}>Please select customers</p>
+                    <table class="table" style={{color: 'white', fontSize: '1.2rem', width: '40%'}}>
+                        <thead style={{color: '#ee7170'}}>
                             <tr>
-                                { selectedUsers.find(cust => cust.id == customer.id) && <td><Form.Check onChange={userAddedDeleted.bind(this, customer)} inline type='checkbox' checked/></td>}
-                                { !selectedUsers.find(cust => cust.id == customer.id) && <td><Form.Check onChange={userAddedDeleted.bind(this, customer)} inline type='checkbox'/></td>}
-                                <td>{customer.companyName}</td>
-                                <td>{customer.ABN}</td>
+                            <th scope="col"></th>
+                            <th scope="col">Client Name</th>
+                            <th scope="col">ABN</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {customers.map((customer) => (
+                                <tr>
+                                    <td><Form.Check onChange={userAddedDeleted.bind(this, customer)} inline type='checkbox' checked={selectedUsers.find(cust => cust.id == customer.id)}/></td>
+                                    <td>{customer.companyName}</td>
+                                    <td>{customer.ABN}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>}
             </Modal.Body>
-            <Modal.Footer style={{borderTop: 0, marginBottom: '15px', marginLeft: '15px', marginRight: '15px'}}>
+            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '100px', paddingRight: '100px', paddingTop: '50px'}}>
                 <div style={{display: 'flex', flex: 1}}>
                     <div style={{flex: 1}}>
                         <Button onClick={props.onBack} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">

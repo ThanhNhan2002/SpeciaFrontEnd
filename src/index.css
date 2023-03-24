@@ -115,6 +115,7 @@ input {
 
 textarea:focus,
 input[type="text"]:focus,
+input[type="file"]:focus,
 input[type="password"]:focus,
 input[type="datetime"]:focus,
 input[type="datetime-local"]:focus,
@@ -166,4 +167,8 @@ input[type="text"]{
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+}
+
+tbody, td, tfoot, th, thead, tr {
+  border-color: #4b2976;
 }
