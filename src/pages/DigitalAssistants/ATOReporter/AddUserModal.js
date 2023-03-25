@@ -8,7 +8,57 @@ import Modal from 'react-bootstrap/Modal';
 import { taxAgentEmails } from '../../DummyResource';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default ({addUserModalShow, closeAddUserModal, confirmAddUser}) => {
+
+
+
+export default function AddUserModal ({addUserModalShow, closeAddUserModal, confirmAddUser})  {
+    const [checkedBoxes, setCheckedBoxes] = useState([]);  // cotrolling the state of the children checkboxes
+
+    // action to be fired when the children checkboxes is changed
+    function checkboxesControl(checkboxId) {
+        let currentCheckbox = document.getElementById(`checkBox${checkboxId}`);
+
+        if(currentCheckbox.checked === true) { //if the action is to check the checkbox
+            setCheckedBoxes(oldState => {
+            return [...oldState, checkboxId].sort()
+        })
+
+        // //get the reports object of the parent
+        // const parents = customers.filter(customer => customer.id === customerId)[0]; // parent object
+        // const reports = parents.reports;
+
+        // //check if alll sibling checboxes is checked
+        // let allSiblingsChecked = true;
+        // for(let report of reports) {
+        //     const siblingElements = document.getElementById(`reportCheckBox${report.reportID}`);
+        //     if (!siblingElements.checked) {
+        //     allSiblingsChecked = false;
+        //     break;
+        //     }
+        // };
+
+        //check if alll sibling checboxes is checked, set the parent checkbox to true
+        // if (allSiblingsChecked) {
+        //     let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
+        //     parentCheckBox.checked=true;
+        // };
+
+        } else { //if the action is to uncheck the checkbox
+            setCheckedBoxes(oldState => {
+            let newState = oldState.filter((item) => item !== checkboxId);
+            return newState.sort()
+        })
+
+        // let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
+        // parentCheckBox.checked=false;
+        }
+    }
+
+    function confirmAddUser () {
+        console.log(checkedBoxes);
+    }
+
+
     return (
         <Modal style={{}} show={addUserModalShow} onHide={closeAddUserModal} centered>
                 <Modal.Header style={{backgroundColor: 'rgb(40, 40, 40)', border: 0}} closeButton>
@@ -54,19 +104,19 @@ export default ({addUserModalShow, closeAddUserModal, confirmAddUser}) => {
                                 <b>Tax Agent Email</b>
                             </button>
                             
-                                <ul class="dropdown-menu" style={{ backgroundColor:'#ffffff33', maxHeight: '100px', overflowY:'scroll'}} aria-labelledby="dropdownMenuClickable">
-                                    {taxAgentEmails.map((email, index) => (
-                                            <li style = {{padding: '2px 2px'}}>
-                                                <div class="form-check" style = {{margin: '2px 2px'}} >
-                                                    <input class="form-check-input" type="checkbox" id= {`flexCheckDefault${index}`} />
-                                                    <label class="form-check-label" style ={{color:'white'}} for={`flexCheckDefault${index}`}>
-                                                        <div>{email.email}</div>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        )
-                                    )}
-                                </ul>
+                            <ul class="dropdown-menu" style={{ backgroundColor:'#ffffff33', maxHeight: '100px', overflowY:'scroll'}} aria-labelledby="dropdownMenuClickable">
+                                {taxAgentEmails.map((email, index) => (
+                                        <li style = {{padding: '2px 2px'}}>
+                                            <div class="form-check" style = {{margin: '2px 2px'}} >
+                                                <input class="form-check-input" type="checkbox" id= {`checkBox${email.id}`} onChange={checkboxesControl.bind(this, email.id)}/>
+                                                <label class="form-check-label" style ={{color:'white'}} for={`checkBox${email.id}`}>
+                                                    <div>{email.email}</div>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    )
+                                )}
+                            </ul>
                         </div>
                     </div>
                   
