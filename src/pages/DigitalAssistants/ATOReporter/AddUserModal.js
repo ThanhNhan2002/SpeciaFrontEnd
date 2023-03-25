@@ -1,63 +1,14 @@
 import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-
 import { React, useState } from 'react'
 import Form from 'react-bootstrap/Form';
-
 import Modal from 'react-bootstrap/Modal';
 import { taxAgentEmails } from '../../DummyResource';
-
-// eslint-disable-next-line import/no-anonymous-default-export
-
-
 
 export default function AddUserModal ({addUserModalShow, closeAddUserModal, confirmAddUser})  {
     const[clientABN, setClientABN] = useState([]);  
     const[clientName, setClientName] = useState([]);  
     const[adminAccountant, setAdminAccountant] = useState([]);  
     const [checkedBoxes, setCheckedBoxes] = useState([]);  // controlling the state of the children checkboxes
-
-    
-
-    // action to be fired when the children checkboxes is changed
-    // function checkboxesControl(checkboxId) {
-    //     let currentCheckbox = document.getElementById(`checkBox${checkboxId}`);
-
-    //     // if(currentCheckbox.checked === true) { //if the action is to check the checkbox
-    //     //     setCheckedBoxes(oldState => {
-    //     //     return [...oldState, checkboxId].sort()
-    //     // })
-
-    //     // // //get the reports object of the parent
-    //     // // const parents = customers.filter(customer => customer.id === customerId)[0]; // parent object
-    //     // // const reports = parents.reports;
-
-    //     // // //check if alll sibling checboxes is checked
-    //     // // let allSiblingsChecked = true;
-    //     // // for(let report of reports) {
-    //     // //     const siblingElements = document.getElementById(`reportCheckBox${report.reportID}`);
-    //     // //     if (!siblingElements.checked) {
-    //     // //     allSiblingsChecked = false;
-    //     // //     break;
-    //     // //     }
-    //     // // };
-
-    //     // //check if alll sibling checboxes is checked, set the parent checkbox to true
-    //     // // if (allSiblingsChecked) {
-    //     // //     let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
-    //     // //     parentCheckBox.checked=true;
-    //     // // };
-
-    //     // } else { //if the action is to uncheck the checkbox
-    //     //     setCheckedBoxes(oldState => {
-    //     //     let newState = oldState.filter((item) => item !== checkboxId);
-    //     //     return newState.sort()
-    //     // })
-
-    //     // // let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
-    //     // // parentCheckBox.checked=false;
-    //     // }
-    // }
 
     function confirmAddUser () {
         console.log(clientABN);      
@@ -100,12 +51,6 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                     <Modal.Title>Add Customer</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{backgroundColor: 'rgb(40, 40, 40)'}}>
-                {/* <Form.Group controlId="formFileLg" className="mb-3">
-                    <Form.Label>Please select a CSV file</Form.Label>
-                    <br/>
-                    <Form.Control type="file" style={{ color: 'white' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem', paddingLeft: '20px'}} />
-                </Form.Group> */}
-
                 <div style={{}}>
                     <div style={{margin:'0 0 18px 0'}}>
                         <p style={{fontSize: '1.2rem', margin:'0 0 0 0'}}>Client ABN</p>
@@ -113,11 +58,6 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                         </Form.Control>
                     </div>
 
-                    {/* { isSingleCust && <div style={{width: '40%'}}>
-                    <p style={{fontSize: '1.2rem'}}>Please provide customer ABN</p>
-                    <Form.Control disabled={!isSingleCust} onChange={changeSelectedCustomerABN} value={selectedCustomerABN} type="text" style={{ color: 'white' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem', paddingLeft: '20px'}} aria-label="ABN" placeholder='ABN'>
-                    </Form.Control>
-                    </div>} */}
 
                     <div style={{margin:'0 0 18px 0'}}>
                         <p style={{fontSize: '1.2rem', margin:'0 0 0 0'}}>Client Name</p>
@@ -154,68 +94,7 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                             </ul>
                         </div>
                     </div>
-                  
-                    
-
-
-                    {/* <Dropdown className="d-inline mx-2" autoClose={false}>
-                        <Dropdown.Toggle id="dropdown-autoclose-false">
-                        Manual Close
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
-
-
-
-                    
-
-
-
-
-                    {/* <select class="form-select" multiple aria-label="multiple select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="3">Three</option>
-                        <option value="3">Three</option>
-                        <option value="3">Three</option>
-
-                        <option value="3">Three</option>
-                    </select> */}
-
-                    {/* <Form.Group controlId="my_multiselect_field">
-                    <Form.Label>My multiselect</Form.Label>
-                    <Form.Control as="select" multiple>
-                        <option value="field1">Field 1</option>
-                        <option value="field2">Field 2</option>
-                        <option value="field3">Field 3</option>
-                    </Form.Control>
-                    </Form.Group> */}
-
-
-
-                    {/* <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Default checkbox
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked />
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Checked checkbox
-                        </label>
-                    </div> */}
-                    
                 </div>
-
                 </Modal.Body>
                 <Modal.Footer style={{backgroundColor: 'rgb(40, 40, 40)', border: 0, padding: '20px'}}>
                     <Button style={{borderRadius: '50px', padding: '12px 18px'}} variant="outline-primary" onClick={closeAddUserModal}>
