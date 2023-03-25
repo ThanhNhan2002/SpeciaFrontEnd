@@ -29,6 +29,9 @@ const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789', reports:
                     {id: 6, companyName: 'Company 6', ABN: '0123456789'},
                     ]
 
+// test
+const test =1;
+
 export default function ReportList() {
   const [open, setCollapse] = useState([]); // cotrolling the state of the collapsible element
   const [toDownload, setDownload] = useState([]);  // cotrolling the state of the children checkboxes
