@@ -7,29 +7,46 @@ import Form from 'react-bootstrap/Form';
 
 import Modal from 'react-bootstrap/Modal';
 
+import styles from '../DigitalAssistants.module.css'
+
 export default ({uploadModalShow, closeUploadModal, confirmUpload}) => {
     
     
     return (
-        <Modal style={{}} show={uploadModalShow} onHide={closeUploadModal} centered>
-                <Modal.Header style={{backgroundColor: 'rgb(40, 40, 40)', border: 0}} closeButton>
-                <Modal.Title>Upload Bulk Customers</Modal.Title>
+        <Modal style={{ backgroundColor: 'rgb(0, 0, 0, 0.4)'}} contentClassName={styles.modalContent} show={uploadModalShow} onHide={closeUploadModal} centered>
+                <Modal.Header style={{ border: 0, color: '#ee7170', padding: 0}} closeButton>
                 </Modal.Header>
-                <Modal.Body style={{backgroundColor: 'rgb(40, 40, 40)'}}>
-                <Form.Group controlId="formFileLg" className="mb-3">
-                    <Form.Label>Please select a CSV file</Form.Label>
-                    <br/>
-                    <Form.Control type="file" style={{ color: 'white' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem', paddingLeft: '20px'}} />
-                </Form.Group>
+                <Modal.Body style={{padding: '10px 30px'}}>
+                    <p style={{color: '#ee7170', fontWeight: '500', fontSize: '1.5rem'}} >Upload Bulk Customers</p>
+                    <Form.Group controlId="formFileLg" className="mb-3">
+                        <p style={{fontSize: '1.1rem', fontWeight: '500'}}>Instructions</p>
+                        <p>1. Fill in the CSV template</p>
+                        <p style={{fontSize: '0.9rem', fontWeight: '600', color: '#ee7170', cursor: 'pointer'}}>Download template</p>
+
+                        <Form.Label style={{marginBottom: '20px'}}>2. Upload the CSV template</Form.Label>
+                        <div class="">
+                            {/* <form method="post" action="#" id="#"> */}
+                            
+                                
+                                
+                                
+                                <div class="form-group files">
+                                    <input type="file" class="form-control" multiple=""/>
+                                </div>
+                                
+                                
+                            {/* </form> */}
+                            
+                            
+                        </div>
+                    </Form.Group>
                 </Modal.Body>
-                <Modal.Footer style={{backgroundColor: 'rgb(40, 40, 40)', border: 0, padding: '20px'}}>
-                <Button style={{borderRadius: '50px', padding: '15px 30px'}} variant="outline-primary" onClick={closeUploadModal}>
-                    Cancel
-                </Button>
-                <Button style={{borderRadius: '50px', padding: '15px 30px'}} variant="primary" onClick={confirmUpload}>
+                <Modal.Footer style={{border: 0, padding: '30px'}}>
+                <p style={{ color: '#ee7170', fontWeight: '600', cursor: 'pointer'}} onClick={confirmUpload}>
                     Upload
-                </Button>
+                </p>
                 </Modal.Footer>
             </Modal>
+            
     )
 }

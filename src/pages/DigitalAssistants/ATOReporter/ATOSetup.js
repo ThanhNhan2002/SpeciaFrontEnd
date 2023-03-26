@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import CustomerTable from './CustomerTable';
 import UploadBulk from './UploadBulk';
 import AddUserModal from './AddUserModal';
+import AssignmentModal from './AssignmentModal';
 
 
 const dummyData = [
@@ -37,9 +38,13 @@ const dummyData = [
 
 export default (props) => {
 
+    const [ currentAssignmentView, setCurrentAssignmentView ] = useState([])
+
     const [ uploadModalShow, setUploadModalShow ] = useState(false)
 
     const [ addUserModalShow, setAddUserdModalShow ] = useState(false)
+
+    const [ assignmentModalShow, setAssignmentModalShow ] = useState(false)
 
     function openUploadModal(){
         setUploadModalShow(true)
@@ -72,11 +77,27 @@ export default (props) => {
         setAddUserdModalShow(false)
     }
 
+
+    function openAssignmentModal(id){
+        console.log(id)
+        setCurrentAssignmentView(dummyData.find(item => item.id == id).taxAgentEmail)
+        setAssignmentModalShow(true)
+    }
+
+    function closeAssignmentModal(){
+        setAssignmentModalShow(false)
+    }
+
+    function confirmAssignment(){
+        console.log('upload file')
+        setAssignmentModalShow(false)
+    }
+
     return (
         <>
-            <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
+            <Modal.Body style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px'}}>
                 <div>
-                    <p>An email has been sent to your email address! </p>
+                    <p style={{paddingTop: '50px'}}>An email has been sent to your email address! </p>
                     <p style={{fontSize: '1.3rem'}}>Please follow the instructions in the email to set up your ATO access.</p>
                     <Button onClick={update_access} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginTop: '20px'}} variant="outline-primary">
                         Send Email Again
@@ -86,11 +107,11 @@ export default (props) => {
                 <div style={{width: '100%', textAlign: 'left'}}>
                     <div style={{display: 'flex', flexDirection: 'row', paddingBottom: '20px'}}>
                         <div style={{flex: 1}}>
-                            <p>Customers</p>
+                            <p>Clients</p>
                         </div>
                     </div>
                     <div style={{}}>
-                        <CustomerTable customerData={dummyData}/>
+                        <CustomerTable customerData={dummyData} openAssignmentModal={openAssignmentModal}/>
                     </div>
                     <div style={{display: 'flex', flexDirection: 'row'}}>
                         <div style={{flex: 1, textAlign: 'left', color: '#ee7170'}}> 
@@ -103,25 +124,29 @@ export default (props) => {
                 </div>
 
             </Modal.Body>
-            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '100px', paddingRight: '100px', paddingTop: '50px'}}>
-                <div style={{display: 'flex', flex: 1}}>
+            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
+                <div style={{display: 'flex', flex: 1, textAlign: 'right'}}>
                     <div style={{flex: 1}}>
                         <Button onClick={props.onBack} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">
                             Previous Step
                         </Button>
-                    </div>
-                    <div style={{flex: 1, textAlign: 'right'}}>
-                        <Button onClick={props.onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px'}} variant="primary">
+                    {/* </div>
+                    <div style={{flex: 1, textAlign: 'right'}}> */}
+                        <Button onClick={props.onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px',marginLeft: '20px'}} variant="primary">
                             Next Step
                         </Button>
                     </div>
                 </div>
             </Modal.Footer>
 
+
             <UploadBulk uploadModalShow={uploadModalShow} closeUploadModal={closeUploadModal} confirmUpload={confirmUpload}/>
 
 
             <AddUserModal addUserModalShow={addUserModalShow} closeAddUserModal={closeAddUserModal} confirmAddUser={confirmAddUser}/>
+
+
+            <AssignmentModal selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal}/>
         </>
     )
 }

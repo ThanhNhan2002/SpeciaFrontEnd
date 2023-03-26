@@ -6,7 +6,7 @@ import styles from '../DigitalAssistants.module.css'
 
 
 
-export default ({customerData}) => {
+export default ({customerData, openAssignmentModal}) => {
 
     const [ tableData, setTableData ] = useState(customerData)
 
@@ -38,24 +38,29 @@ export default ({customerData}) => {
         })
     }
 
+    function openAssignment(id){
+        console.log(id)
+        openAssignmentModal(id)
+    }
+
     return (
         <div>
-            <table class="table" style={{color: 'white', fontSize: '1.1rem', width: '100%'}}>
+            <table className="table table-striped" style={{color: 'black', fontSize: '1.1rem', width: '100%', backgroundColor: 'white', borderRadius: '20px'}}>
                 <thead style={{color: '#ee7170'}}>
                     <tr>
-                        <th scope="col">ABN</th>
-                        <th scope="col">Client Name</th>
-                        <th scope="col">Admin Accountant</th>
-                        <th scope="col">Tax Agent Account</th>
+                        <th style={{paddingLeft: '2vw', paddingRight: '2vw'}} scope="col">ABN</th>
+                        <th style={{paddingLeft: '2vw', paddingRight: '2vw'}} scope="col">Client Name</th>
+                        <th style={{paddingLeft: '2vw', paddingRight: '2vw'}} scope="col">Admin Accountant</th>
+                        <th style={{paddingLeft: '2vw', paddingRight: '2vw'}} scope="col">Assigned to</th>
                     </tr>
                 </thead>
                 <tbody>
                     { tableData.map(customer => 
                         <tr>
-                            <td scope="row"><input onChange={(e) => changeABNHandler(e, customer.id)} className={styles.tableField} value={customer.ABN} style={{backgroundColor: 'transparent', border: 0, width: '80%'}} /></td>
-                            <td><input onChange={(e) => changeClientNameHandler(e, customer.id)} className={styles.tableField} value={customer.clientName} style={{backgroundColor: 'transparent', border: 0, width: '80%'}} /></td>
-                            <td><input onChange={(e) => changeAdminAccountantEmailHandler(e, customer.id)} className={styles.tableField} value={customer.adminAccountantEmail} style={{backgroundColor: 'transparent', border: 0, width: '80%'}} /></td>
-                            <td>{customer.taxAgentEmail.length}</td>
+                            <td style={{paddingLeft: '2vw'}} scope="row"><input onChange={(e) => changeABNHandler(e, customer.id)} className={styles.tableField} value={customer.ABN} style={{backgroundColor: 'transparent', border: 0, width: '80%', color: 'black!important'}} /></td>
+                            <td style={{paddingLeft: '2vw'}}><input onChange={(e) => changeClientNameHandler(e, customer.id)} className={styles.tableField} value={customer.clientName} style={{backgroundColor: 'transparent', border: 0, width: '80%', color: 'black'}} /></td>
+                            <td style={{paddingLeft: '2vw'}}><input onChange={(e) => changeAdminAccountantEmailHandler(e, customer.id)} className={styles.tableField} value={customer.adminAccountantEmail} style={{backgroundColor: 'transparent', border: 0, width: '80%', color: 'black'}} /></td>
+                            <td style={{cursor: 'pointer', paddingLeft: '2vw'}} onClick={openAssignment.bind(this, customer.id)} >{customer.taxAgentEmail.length} Users</td>
                         </tr>
                     )}
                 </tbody>
