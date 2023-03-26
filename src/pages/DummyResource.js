@@ -1,8 +1,7 @@
 
 import React from 'react'
 
-
-const dummyData = [
+export const dummyData = [
   {ABN: '111111111', clientName:'Company 1', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com','agent2@accounting1.com', 'agent3@accounting1.com']},
   {ABN: '111111112', clientName:'Company 2', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent2@accounting1.com', 'agent3@accounting1.com']},
   {ABN: '111111113', clientName:'Company 3', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent3@accounting1.com']},
@@ -15,7 +14,21 @@ const dummyData = [
   {ABN: '111111119', clientName:'Company 9', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent4@accounting1.com']}
 ]
 
+export const taxAgentEmails = [
+  { Id: '1', email:'agent1@accounting1.com' },
+  { Id: '2', email:'agent2@accounting1.com' },
+  { Id: '3', email:'agent3@accounting1.com' },
+  { Id: '4', email:'agent4@accounting1.com' },
+  { Id: '5', email:'agent5@accounting1.com' },
+  { Id: '6', email:'agent6@accounting1.com' },
+];
+
+
+
 export default function DummyResource() {
+
+
+
   return (
     <>
       <table id="my_table_id"
