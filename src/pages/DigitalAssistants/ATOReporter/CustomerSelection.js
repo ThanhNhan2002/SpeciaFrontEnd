@@ -24,7 +24,7 @@ export default (props) => {
 
     const [selectedUsers, setSelectedUsers ] = useState(props.request.customersSelected)
 
-    const [ isSingleCust, setIsSingleCust ] = useState(true)
+    const [ isSingleCust, setIsSingleCust ] = useState(props.request.customerSelectionMode == 'S')
 
 
     const [ selectedCustomerABN, setSelectedCustomerABN ] = useState(props.request.selectedCustomerABN)
@@ -43,12 +43,12 @@ export default (props) => {
 
     function selectSingle(){
         setIsSingleCust(true)
-        props.onUpdateCustomerSelectionMode = 'S'
+        props.onUpdateCustomerSelectionMode('S')
     }
 
     function selectMultiple(){
         setIsSingleCust(false)
-        props.onUpdateCustomerSelectionMode = 'S'
+        props.onUpdateCustomerSelectionMode('M')
     }
 
     function changeSelectedCustomerABN(e){
@@ -91,7 +91,7 @@ export default (props) => {
                     </div>
                 </div>
 
-                {/* <br/> */}
+                <br/>
 
                 { isSingleCust && <div style={{width: '40%'}}>
                     <p style={{fontSize: '1.2rem'}}>Please provide customer ABN</p>
@@ -103,35 +103,35 @@ export default (props) => {
                 
                 <div>
                     <p style={{fontSize: '1.2rem'}}>Please select customers</p>
-                    <table class="table" style={{color: 'white', fontSize: '1.2rem', width: '40%'}}>
+                    <table className="table table-striped" style={{color: 'black', fontSize: '1.1rem', width: '40%', backgroundColor: 'white', borderRadius: '20px'}}>
                         <thead style={{color: '#ee7170'}}>
                             <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Client Name</th>
-                            <th scope="col">ABN</th>
+                            <th style={{paddingLeft: '2vw', paddingRight: '2vw'}} scope="col">Client Name</th>
+                            <th style={{paddingLeft: '2vw', paddingRight: '2vw'}} scope="col">ABN</th>
+                            <th style={{paddingLeft: '2vw', paddingRight: '2vw'}} scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {customers.map((customer) => (
                                 <tr>
-                                    <td><Form.Check onChange={userAddedDeleted.bind(this, customer)} inline type='checkbox' checked={selectedUsers.find(cust => cust.id == customer.id)}/></td>
-                                    <td>{customer.companyName}</td>
-                                    <td>{customer.ABN}</td>
+                                    <td style={{paddingLeft: '2vw', paddingRight: '2vw'}}>{customer.companyName}</td>
+                                    <td style={{paddingLeft: '2vw', paddingRight: '2vw'}}>{customer.ABN}</td>
+                                    <td style={{paddingLeft: '2vw', paddingRight: '2vw'}}><Form.Check onChange={userAddedDeleted.bind(this, customer)} inline type='checkbox' checked={selectedUsers.find(cust => cust.id == customer.id)}/></td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>}
             </Modal.Body>
-            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '100px', paddingRight: '100px', paddingTop: '50px'}}>
+            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
                 <div style={{display: 'flex', flex: 1}}>
-                    <div style={{flex: 1}}>
+                    <div style={{flex: 1, textAlign: 'right'}}>
                         <Button onClick={props.onBack} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">
                             Previous Step
                         </Button>
-                    </div>
-                    <div style={{flex: 1, textAlign: 'right'}}>
-                        <Button onClick={props.onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px'}} variant="primary">
+                    {/* </div>
+                    <div style={{flex: 1, textAlign: 'right'}}> */}
+                        <Button onClick={props.onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginLeft: '20px'}} variant="primary">
                             Next Step
                         </Button>
                     </div>
