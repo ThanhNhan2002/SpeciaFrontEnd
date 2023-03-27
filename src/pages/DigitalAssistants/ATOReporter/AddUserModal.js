@@ -159,17 +159,17 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                 <Form>
                     <Form.Group style={{margin:'0 0 20px 0'}}>
                         <Form.Label>Client ABN</Form.Label>
-                        <Form.Control type="text" placeholder="ABN" onChange={changeClientABN}/>
+                        <Form.Control className="clientABNinput" type="text" placeholder="ABN" onChange={changeClientABN}/>
                     </Form.Group>
 
                     <Form.Group style={{margin:'0 0 20px 0'}}>
                         <Form.Label>Client Name</Form.Label>
-                        <Form.Control type="text" placeholder="Name"  onChange={changeClientABN}/>
+                        <Form.Control className="clientABNinput" type="text" placeholder="Name"  onChange={changeClientABN}/>
                     </Form.Group>
 
                     <Form.Group style={{margin:'0 0 20px 0'}}>
                         <Form.Label>Admin Accountant Email</Form.Label>
-                        <Form.Control type="text" placeholder="Email"  onChange={changeAdminAccountant}/>
+                        <Form.Control className="clientABNinput" type="text" placeholder="Email"  onChange={changeAdminAccountant}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -184,8 +184,8 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                                         {taxAgentEmails.map((email, index) => (
                                                 <li style = {{padding: '2px 2px'}}>
                                                     <div class="form-check" style = {{margin: '2px 2px'}} >
-                                                        <input class="form-check-input" type="checkbox" id= {`checkBox${email.Id}`} onChange={checkBoxControl.bind(this, email.Id )} />                                         
-                                                        <label class="form-check-label" style ={{color:'black'}} for={`checkBox${email.Id}`}>
+                                                        <input class="form-check-input" style={{outline:'1px solid #ee7170'}} type="checkbox" id= {`checkBox${email.Id}`} onChange={checkBoxControl.bind(this, email.Id )} />                                         
+                                                        <label class="form-check-label" style ={{color:'rgba(0, 0, 0, 0.5)', fontWeight:'500'}} for={`checkBox${email.Id}`}>
                                                             <div>{email.email}</div>
                                                         </label>
                                                     </div>
