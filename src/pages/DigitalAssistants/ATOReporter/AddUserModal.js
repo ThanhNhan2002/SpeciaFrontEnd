@@ -164,7 +164,7 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
 
                     <Form.Group style={{margin:'0 0 20px 0'}}>
                         <Form.Label>Client Name</Form.Label>
-                        <Form.Control className="clientABNinput" type="text" placeholder="Name"  onChange={changeClientABN}/>
+                        <Form.Control className="clientABNinput" type="text" placeholder="Name"  onChange={changeClientName}/>
                     </Form.Group>
 
                     <Form.Group style={{margin:'0 0 20px 0'}}>
