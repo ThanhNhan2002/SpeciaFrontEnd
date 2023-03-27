@@ -3,6 +3,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { taxAgentEmails } from '../../DummyResource';
 import digitalAssistantsStyles from '../DigitalAssistants.module.css';
+import Button from 'react-bootstrap/Button';
+
 
 export default function AddUserModal ({addUserModalShow, closeAddUserModal, confirmAddUser})  {
     const[clientABN, setClientABN] = useState([]);  
@@ -109,7 +111,7 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
         <Modal.Header style={{ border: 0, color: '#ee7170', padding: 0}} closeButton>
         </Modal.Header>
         <Modal.Body style={{padding: '10px 30px'}}>
-                <p style={{color: '#ee7170', fontWeight: '500', fontSize: '1.5rem'}} >Add Customer</p>
+                {/* <p style={{color: '#ee7170', fontWeight: '500', fontSize: '1.5rem'}} >Add Customer</p>
                 <div style={{margin:'0 0 18px 0'}}>
                     <p style={{ margin:'0 0 0 0'}}>Client ABN</p>
                     <Form.Control type="text" onChange={changeClientABN} value = {clientABN} style={{ color: 'black' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: '1px solid rgba(0, 0, 0,.2)', fontSize: '1.1rem', paddingLeft: '20px'}} aria-label="ABN" placeholder='ABN'>
@@ -136,7 +138,7 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                                 <b>Tax Agent Email</b>
                             </button>
                             
-                            <ul class="dropdown-menu" style={{ backgroundColor:'#ffffff33', maxHeight: '100px', overflowY:'scroll'}} aria-labelledby="dropdownMenuClickable">
+                            <ul class="dropdown-menu" style={{ backgroundColor:'#white', maxHeight: '100px', overflowY:'scroll'}} aria-labelledby="dropdownMenuClickable">
                                 {taxAgentEmails.map((email, index) => (
                                         <li style = {{padding: '2px 2px'}}>
                                             <div class="form-check" style = {{margin: '2px 2px'}} >
@@ -151,7 +153,51 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                             </ul>
                         </div>
                 </div>
-                </Form.Group>
+                </Form.Group> */}
+
+                <p style={{color: '#ee7170', fontWeight: '500', fontSize: '1.5rem'}} >Add Customer</p>
+                <Form>
+                    <Form.Group style={{margin:'0 0 20px 0'}}>
+                        <Form.Label>Client ABN</Form.Label>
+                        <Form.Control type="text" placeholder="ABN" onChange={changeClientABN}/>
+                    </Form.Group>
+
+                    <Form.Group style={{margin:'0 0 20px 0'}}>
+                        <Form.Label>Client Name</Form.Label>
+                        <Form.Control type="text" placeholder="Name"  onChange={changeClientABN}/>
+                    </Form.Group>
+
+                    <Form.Group style={{margin:'0 0 20px 0'}}>
+                        <Form.Label>Admin Accountant Email</Form.Label>
+                        <Form.Control type="text" placeholder="Email"  onChange={changeAdminAccountant}/>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <div class="btn-group" style={{margin:'0 30px 60px 0', display:'flex', flexDirection:'column' }}>
+                                <Form.Label>Select tax agent emails</Form.Label>
+                                <div style={{margin: '3px 0 0 0'}}>
+                                    <button class="btn btn-secondary dropdown-toggle" style={{ color:'white', backgroundColor:'#ee7170',  height: '40px', border: 'none'}} type="button" id="dropdownMenuClickable" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                                        <b>Tax Agent Email</b>
+                                    </button>
+                                    
+                                    <ul class="dropdown-menu" style={{ backgroundColor:'#white', maxHeight: '100px', overflowY:'scroll'}} aria-labelledby="dropdownMenuClickable">
+                                        {taxAgentEmails.map((email, index) => (
+                                                <li style = {{padding: '2px 2px'}}>
+                                                    <div class="form-check" style = {{margin: '2px 2px'}} >
+                                                        <input class="form-check-input" type="checkbox" id= {`checkBox${email.Id}`} onChange={checkBoxControl.bind(this, email.Id )} />                                         
+                                                        <label class="form-check-label" style ={{color:'black'}} for={`checkBox${email.Id}`}>
+                                                            <div>{email.email}</div>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                            )
+                                        )}
+                                    </ul>
+                                </div>
+                        </div>
+                    </Form.Group>
+
+                </Form>
         </Modal.Body>
         <Modal.Footer style={{border: 0, padding: '30px'}}>
         <p style={{ color: '#ee7170', fontWeight: '600', cursor: 'pointer'}}  onClick={confirmAddUser}>
