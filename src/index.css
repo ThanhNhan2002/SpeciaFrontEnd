@@ -234,3 +234,8 @@ tbody, td, tfoot, th, thead, tr {
   text-transform: capitalize;
   text-align: center;
 }
+
+
+.clientABNinput:focus {
+  border: 1px solid #ee7170;
+}
