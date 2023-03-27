@@ -51,23 +51,11 @@ export default ({request, onBack, onSubmit}) => {
                     </ul>
                 }
             </div>
-            <br/>
-            <div>
-                <p>Report Types</p>
-                <ul>
-                    { request.reportTypesSelected.includes('BAS') && <li style={{fontSize: '1.3rem'}}>Business Activity Statement</li> }
-                    { request.reportTypesSelected.includes('SOA') && <li style={{fontSize: '1.3rem'}}>Statement of Account</li> }
-                </ul>
-            </div>
 
             <br/>
 
             <div>
-                <p>Period</p>
-                <ul>
-                    <li style={{fontSize: '1.3rem'}}>Start date: {request.periodFrom}</li>
-                    <li style={{fontSize: '1.3rem'}}>End date: {request.periodTo}</li>
-                </ul>
+                <p>Financial Year: {request.financialYear}</p>
             </div>
 
 

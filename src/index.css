@@ -132,15 +132,25 @@ input[type="color"]:focus,
 select:focus,
 .uneditable-input:focus {   
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.761);
+  color: white;
 
 }
 
 
-input[type="text"]{
-  margin: 0
+input[type="text"],
+input[type="email"]{
+  margin: 0;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
 }
 
-.modal.fade .modal-dialog {-webkit-transform: translate(0,0)scale(.5);transform: translate(0,0)scale(.7);}
+input[type="email"]:disabled{
+  margin: 0;
+  color: rgb(200, 200, 200)
+}
+
+.modal.fade .modal-dialog {-webkit-transform: translate(0,0)scale(.9);transform: translate(0,0)scale(.9);}
 .modal.show .modal-dialog {-webkit-transform: translate(0,0)scale(1);transform: translate(0,0)scale(1);}
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {

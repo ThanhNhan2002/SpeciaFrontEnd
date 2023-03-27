@@ -1,24 +1,152 @@
 import Button from 'react-bootstrap/Button';
 
+
+import { React, useState } from 'react'
+import Form from 'react-bootstrap/Form';
+
+import Modal from 'react-bootstrap/Modal';
+import CustomerTable from './CustomerTable';
+import UploadBulk from './UploadBulk';
+import AddUserModal from './AddUserModal';
+import AssignmentModal from './AssignmentModal';
+
+
+const dummyData = [
+
+      {id: 1, ABN: '111111111', clientName:'Company 1', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com','agent2@accounting1.com', 'agent3@accounting1.com']},
+    
+      {id: 2, ABN: '111111112', clientName:'Company 2', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent2@accounting1.com', 'agent3@accounting1.com']},
+    
+      {id: 3, ABN: '111111113', clientName:'Company 3', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent3@accounting1.com']},
+    
+      {id: 4, ABN: '111111114', clientName:'Company 4', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent3@accounting1.com']},
+    
+      {id: 5, ABN: '111111115', clientName:'Company 5', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent3@accounting1.com', 'agent3@accounting1.com']},
+    
+      {id: 6, ABN: '111111116', clientName:'Company 6', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent3@accounting1.com']},
+    
+    
+    
+    
+      {id: 7, ABN: '111111117', clientName:'Company 7', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent4@accounting1.com']},
+    
+      {id: 8, ABN: '111111118', clientName:'Company 8', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent4@accounting1.com']},
+    
+      {id: 9, ABN: '111111119', clientName:'Company 9', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent4@accounting1.com']}
+    
+    ]
+
 export default (props) => {
+
+    const [ currentAssignmentView, setCurrentAssignmentView ] = useState([])
+
+    const [ uploadModalShow, setUploadModalShow ] = useState(false)
+
+    const [ addUserModalShow, setAddUserdModalShow ] = useState(false)
+
+    const [ assignmentModalShow, setAssignmentModalShow ] = useState(false)
+
+    function openUploadModal(){
+        setUploadModalShow(true)
+    }
+
+    function closeUploadModal(){
+        setUploadModalShow(false)
+    }
 
     function update_access(){
         props.onStatusUpdate(true)
     }
 
+    function confirmUpload(){
+        console.log('upload file')
+        setUploadModalShow(false)
+    }
+
+
+    function openAddUserModal(){
+        setAddUserdModalShow(true)
+    }
+
+    function closeAddUserModal(){
+        setAddUserdModalShow(false)
+    }
+
+    function confirmAddUser(){
+        console.log('upload file')
+        setAddUserdModalShow(false)
+    }
+
+
+    function openAssignmentModal(id){
+        console.log(id)
+        setCurrentAssignmentView(dummyData.find(item => item.id == id).taxAgentEmail)
+        setAssignmentModalShow(true)
+    }
+
+    function closeAssignmentModal(){
+        setAssignmentModalShow(false)
+    }
+
+    function confirmAssignment(){
+        console.log('upload file')
+        setAssignmentModalShow(false)
+    }
+
     return (
         <>
-            <p>Please follow the instructions below to set up your ATO access.</p>
-            <br/>
-            <p>- Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
-            <p>- The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</p>
-            <p>- There are many variations of passages of Lorem Ipsum available.</p>
-            <br/>
-            <p>Once you have completed all the steps, please check you access.</p>
-            <br/>
-            <Button onClick={update_access} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px'}} variant="outline-primary">
-                Check my ATO access
-             </Button>
+            <Modal.Body style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px', scrollbarWidth: 'none'}}>
+                <div>
+                    <p style={{paddingTop: '50px'}}>An email has been sent to your email address! </p>
+                    <p style={{fontSize: '1.3rem'}}>Please follow the instructions in the email to set up your ATO and Xero access.</p>
+                    <Button onClick={update_access} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginTop: '20px'}} variant="primary">
+                        Send Email Again
+                    </Button>
+                </div>
+                <br/>
+                <div style={{width: '100%', textAlign: 'left'}}>
+                    <div style={{display: 'flex', flexDirection: 'row', paddingBottom: '20px'}}>
+                        <div style={{flex: 1}}>
+                            <p>Clients</p>
+                        </div>
+                    </div>
+                    <div style={{}}>
+                        <CustomerTable customerData={dummyData} openAssignmentModal={openAssignmentModal}/>
+                    </div>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        <div style={{flex: 1, textAlign: 'left', color: '#ee7170'}}> 
+                            <p onClick={openAddUserModal} style={{cursor: 'pointer', fontSize: '1.1rem', fontWeight: '500', display: 'inline'}}>Add customer</p>
+                        </div>
+                        <div style={{flex: 1, textAlign: 'right', color: '#ee7170'}}>
+                            <p onClick={openUploadModal} style={{cursor: 'pointer', fontSize: '1.1rem', fontWeight: '500', display: 'inline'}}>Upload bulk customers</p>
+                        </div>
+                    </div>
+                </div>
+
+            </Modal.Body>
+            <Modal.Footer style={{borderTop: 0, paddingBottom: '50px', paddingLeft: '50px', paddingRight: '50px', paddingTop: '50px'}}>
+                <div style={{display: 'flex', flex: 1, textAlign: 'right'}}>
+                    <div style={{flex: 1}}>
+                        <Button onClick={props.onBack} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">
+                            Previous Step
+                        </Button>
+                    {/* </div>
+                    <div style={{flex: 1, textAlign: 'right'}}> */}
+                        <Button onClick={props.onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px',marginLeft: '20px'}} variant="primary">
+                            Next Step
+                        </Button>
+                    </div>
+                </div>
+            </Modal.Footer>
+
+
+            <UploadBulk uploadModalShow={uploadModalShow} closeUploadModal={closeUploadModal} confirmUpload={confirmUpload}/>
+
+
+            <AddUserModal addUserModalShow={addUserModalShow} closeAddUserModal={closeAddUserModal} confirmAddUser={confirmAddUser}/>
+
+
+            <AssignmentModal selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal} confirmAssignment={confirmAssignment}/>
         </>
     )
 }

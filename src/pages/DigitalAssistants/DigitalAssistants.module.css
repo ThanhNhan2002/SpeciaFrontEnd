@@ -18,7 +18,7 @@
 
 
 .tableField:focus{
-    box-shadow: none !important;
+    box-shadow: transparent !important;
     border: none !important;
 }
 

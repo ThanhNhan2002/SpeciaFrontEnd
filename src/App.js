@@ -17,6 +17,7 @@ import Login from './auth/login/Login';
 import DigitalAssistants from './pages/DigitalAssistants/DigitalAssistants';
 import ProtectedRoute from './auth/ProtectedRoute'
 import Registration from './auth/registration/Registration'
+import AzureRegistration from './auth/registration/AzureRegistration'
 import ReportList from './pages/Reports/ATOReporter/ReportList'
 import Reports from './pages/Reports/Reports';
 import ATOrequests from './pages/Reports/ATOReporter/ATOrequests';
@@ -28,7 +29,8 @@ function App() {
   return (
             <Routes>
               <Route path='/auth/login' element={<Login/>}></Route>
-              <Route path='/auth/register' element={<Registration/>}></Route>
+              <Route path='/auth/register' element={<ProtectedRoute><Registration/></ProtectedRoute>}></Route>
+              <Route path='/azureregistration' element={<AzureRegistration/>}></Route>
               <Route path="/" element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                 <Route index element={<DigitalAssistants/>}></Route>
                 <Route path='/reports' element={<Reports/>}></Route>

@@ -9,6 +9,7 @@ import CustomerTable from './CustomerTable';
 import UploadBulk from './UploadBulk';
 import AddUserModal from './AddUserModal';
 import AssignmentModal from './AssignmentModal';
+import EmailSentModal from './EmailSentModal';
 
 
 const dummyData = [
@@ -46,6 +47,8 @@ export default (props) => {
 
     const [ assignmentModalShow, setAssignmentModalShow ] = useState(false)
 
+    const [ emailModalShow, setEmailModalShow ] = useState(false)
+
     function openUploadModal(){
         setUploadModalShow(true)
     }
@@ -54,8 +57,16 @@ export default (props) => {
         setUploadModalShow(false)
     }
 
-    function update_access(){
-        props.onStatusUpdate(true)
+    function openEmailModal(){
+        setEmailModalShow(true)
+    }
+
+    function closeEmaildModal(){
+        setEmailModalShow(false)
+    }
+
+    function sendEmailHandler(){
+        openEmailModal()
     }
 
     function confirmUpload(){
@@ -95,11 +106,11 @@ export default (props) => {
 
     return (
         <>
-            <Modal.Body style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px'}}>
+            <Modal.Body style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px', scrollbarWidth: 'none'}}>
                 <div>
                     <p style={{paddingTop: '50px'}}>An email has been sent to your email address! </p>
                     <p style={{fontSize: '1.3rem'}}>Please follow the instructions in the email to set up your ATO access.</p>
-                    <Button onClick={update_access} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginTop: '20px'}} variant="outline-primary">
+                    <Button onClick={sendEmailHandler} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginTop: '20px'}} variant="primary">
                         Send Email Again
                     </Button>
                 </div>
@@ -146,7 +157,9 @@ export default (props) => {
             <AddUserModal addUserModalShow={addUserModalShow} closeAddUserModal={closeAddUserModal} confirmAddUser={confirmAddUser}/>
 
 
-            <AssignmentModal selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal}/>
+            <AssignmentModal selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal} confirmAssignment={confirmAssignment}/>
+
+            <EmailSentModal show={emailModalShow} onClose={closeEmaildModal}/>
         </>
     )
 }
