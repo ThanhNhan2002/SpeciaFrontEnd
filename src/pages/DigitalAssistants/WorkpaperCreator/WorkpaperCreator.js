@@ -4,18 +4,14 @@ import {
     useNavigate, 
   } from "react-router-dom";
 
-import Button from 'react-bootstrap/Button';
-
 import Modal from 'react-bootstrap/Modal';
 import Intro from './Intro';
 
 import ATOSetup from './ATOSetup';
 import CustomerSelection from './CustomerSelection';
 import Processing from './Processing';
-import XeroSetup from './XeroSetup';
 import FinancialYear from './FinancialYear';
-import TAN from './TAN';
-import ABN from './ABN';
+import Review from './Review';
 
 
 
@@ -62,21 +58,23 @@ export default (props) => {
         navigate('/reports')
     }
 
-    function updateAtoAccessStatus(ato_access_status){
-        console.log(request)
+
+
+    function updateCustomerSelectionMode(mode){
         setRequest((oldState) => {
-            oldState.isATOSetup = ato_access_status
+            oldState.customerSelectionMode = mode
             return oldState
         })
     }
 
-    function updateXeroAccessStatus(xero_access_status){
-        console.log(request)
+
+    function updateSelectedCustomerABN(abn){
         setRequest((oldState) => {
-            oldState.isXeroSetup = xero_access_status
+            oldState.selectedCustomerABN = abn
             return oldState
         })
     }
+
 
     function updateCustomesSelected(newCustomersList){
         setRequest((oldState) => {
@@ -85,31 +83,10 @@ export default (props) => {
         })
     }
 
-    function updateTypesSelected(newTypesList){
-        setRequest((oldState) => {
-            oldState.reportTypesSelected = newTypesList
-            return oldState
-        })
-    }
 
     function updateFinancialYear(year){
         setRequest((oldState) => {
             oldState.financialYear = year
-            return oldState
-        })
-    }
-
-
-    function updateTan(tan){
-        setRequest((oldState) => {
-            oldState.TAN = tan
-            return oldState
-        })
-    }
-
-    function updateAbn(abn){
-        setRequest((oldState) => {
-            oldState.ABN = abn
             return oldState
         })
     }
@@ -128,16 +105,7 @@ export default (props) => {
         if(!requestTemplate.isATOSetup){
             requiredSteps.push('ato-setup')
         }
-        if(!requestTemplate.isXeroSetup){
-            requiredSteps.push('xero-setup')
-        }
-        if(!requestTemplate.ABN){
-            requiredSteps.push('abn')
-        }
-        if(!requestTemplate.TAN){
-            requiredSteps.push('tan')
-        }
-        requiredSteps = requiredSteps.concat(['customer-select', 'financial-year'])
+        requiredSteps = requiredSteps.concat(['customer-select', 'financial-year', 'review'])
         console.log(requiredSteps)
         setSteps(requiredSteps)
         setRequest(requestTemplate)
@@ -149,45 +117,17 @@ export default (props) => {
             <Modal.Header style={{borderBottom: 0, marginTop: '15px', marginLeft: '15px', marginRight: '15px'}} closeButton>
                 <Modal.Title style={{color: '#ee7170', fontSize: '2rem'}}>
                     <img width="40px" src='https://specia.ai/wp-content/uploads/2021/11/huge-circle.svg' style={{ borderRadius: '50px', margin: 'auto 0'}} alt="User avatar"/>
-                    <span style={{marginLeft: '25px', paddingTop: '10px'}}>Suzzie - The Workpaper Creator</span>
+                    <span style={{marginLeft: '25px', paddingTop: '10px'}}>Susan - The Workpaper Creator</span>
                     </Modal.Title>
             </Modal.Header>
-            <Modal.Body style={{margin: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
-                { steps[currentStep]== 'intro' && <Intro/>}
-                { steps[currentStep]== 'ato-setup' && <ATOSetup onStatusUpdate={updateAtoAccessStatus}/>}
-                { steps[currentStep]== 'xero-setup' && <XeroSetup onStatusUpdate={updateXeroAccessStatus}/>}
-                { steps[currentStep]== 'abn' && <ABN request={request} onUpdateAbn={updateAbn}/>}
-                { steps[currentStep]== 'tan' && <TAN request={request} onUpdateTan={updateTan}/>}
-                { steps[currentStep]== 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected}/>}
-                { steps[currentStep]== 'financial-year' && <FinancialYear request={request} onUpdateYear={updateFinancialYear}/>}
+            {/* <Modal.Body style={{margin: '50px 50px', fontSize: '1.6rem', lineHeight: '2.8rem'}}> */}
+                { steps[currentStep]== 'intro' && <Intro onContinue={onContinue} closeModal={closeModal}/>}
+                { steps[currentStep]== 'ato-setup' && <ATOSetup onContinue={onContinue} onBack={onBack}/>}
+                { steps[currentStep]== 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected} onUpdateCustomerSelectionMode={updateCustomerSelectionMode} onUpdateSelectedCustomerABN={updateSelectedCustomerABN} onContinue={onContinue} onBack={onBack}/>}
+                { steps[currentStep]== 'financial-year' && <FinancialYear request={request} onUpdateYear={updateFinancialYear} onContinue={onContinue} onBack={onBack}/>}
+                { steps[currentStep] == 'review' && <Review request={request} onSubmit={submitRequest} onBack={onBack}/>}
                 { showProcessing && <Processing/>}
-            </Modal.Body>
-            <Modal.Footer style={{borderTop: 0, marginBottom: '15px', marginLeft: '15px', marginRight: '15px'}}>
-                <div style={{display: 'flex', flex: 1}}>
-                    <div style={{flex: 1}}>
-                        { currentStep > 0 && currentStep <= steps.length-1 && <Button onClick={onBack} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">
-                            Previous Step
-                        </Button>}
-                        { currentStep == 0 && <Button onClick={closeModal} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">
-                            Cancel
-                        </Button>}
-                        { currentStep > steps.length-1 && <Button onClick={closeModal} style={{padding: '15px 35px', borderRadius: '50px'}} variant="outline-primary">
-                            Go back to home
-                        </Button>}
-                    </div>
-                    <div style={{flex: 1, textAlign: 'right'}}>
-                        { currentStep < steps.length-1 && <Button onClick={onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px'}} variant="primary">
-                            Next Step
-                        </Button>}
-                        { currentStep == steps.length-1 && <Button onClick={submitRequest} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px'}} variant="primary">
-                            Submit Request
-                        </Button>}
-                        { currentStep > steps.length-1 && <Button onClick={onSeeAllRequests} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px'}} variant="primary">
-                            See all requests
-                        </Button>}
-                    </div>
-                </div>
-            </Modal.Footer>
+            {/* </Modal.Body> */}
         </Modal>
     )
 }

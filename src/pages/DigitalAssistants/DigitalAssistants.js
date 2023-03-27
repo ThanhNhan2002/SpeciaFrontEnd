@@ -21,28 +21,13 @@ export default () => {
         setReporterRequest({
             isNewUser: true,
             isATOSetup: false,
-            ABN: null,
-            TAN: null,
             customerSelectionMode: 'S',
             customersSelected: [],
             selectedCustomerABN: null,
             reportTypesSelected: [],
             periodFrom: null,
             periodTo: null,
-            searchCode: 'All',
-            runningBalanceIndicator: false,
-            taxAccountIdentifier: null,
-            taxRoleTypeCode: null,
-            processStartDate: null,
-            processEndDate: null,
-            effectiveStartDate: null,
-            effectiveEndDate: null,
-            recordSortOrderCode: 'Ascending',
-            recordSortFieldCode: 'ProcessDate',
-            limit: null,
-            firstIdx: null,
-            runMode: 'N',
-            aggregationCode: null
+            searchCode: 'All'
         })
     }
 
@@ -55,11 +40,10 @@ export default () => {
         setCreatorRequest({
             isNewUser: true,
             isATOSetup: false,
-            isXeroSetup: false,
-            ABN: null,
-            TAN: null,
+            customerSelectionMode: 'S',
             customersSelected: [],
-            financialYear: null
+            selectedCustomerABN: null,
+            financialYear: '2023'
         
         })
     }
@@ -89,7 +73,7 @@ export default () => {
             <div style={{display: 'flex', flexDirection: 'row', margin: '0 5vw'}}>
                 <div style={{flex: 1, border: '3px solid #4b2976', marginRight: '3vw', borderRadius: '30px', transition: '0.2s', display: 'flex', flexDirection: 'column'}}>
                     <div style={{flex: 3}}>
-                        <img style={{border: '2px solid #ee7170',width: '25vh', borderRadius: '20vw', marginTop: '5vh', padding: '8px'}} src={require('../../resources/Suzzie.png')}/>
+                        <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '8vh', padding: '8px'}} src={require('../../resources/Suzzie.png')}/>
                     </div>
                     <div style={{marginTop: '10px', flex: 2}}>
                         <p style={{fontSize: '2.2rem', fontWeight: '600'}}>Suzzie</p>
@@ -103,7 +87,7 @@ export default () => {
                 </div>
                 <div style={{flex: 1, border: '3px solid #4b2976', borderRadius: '30px', height: '70vh', transition: '0.2s', display: 'flex', flexDirection: 'column'}}>
                     <div style={{flex: 3}}>
-                        <img style={{border: '2px solid #ee7170',width: '25vh', borderRadius: '20vw', marginTop: '5vh', padding: '8px'}} src={require('../../resources/Susan.png')}/>
+                        <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '8vh', padding: '8px'}} src={require('../../resources/Susan.png')}/>
                     </div>
                     <div style={{marginTop: '10px', flex: 2}}>
                         <p style={{fontSize: '2.2rem', fontWeight: '600'}}>Susan</p>
@@ -117,7 +101,7 @@ export default () => {
                 </div>
                 <div style={{flex: 1, border: '3px solid #4b2976', marginLeft: '3vw', borderRadius: '30px', height: '70vh', transition: '0.2s', display: 'flex', flexDirection: 'column'}}>
                     <div style={{flex: 3}}>
-                        <img style={{border: '2px solid #ee7170',width: '25vh', borderRadius: '20vw', marginTop: '5vh', padding: '8px'}} src={require('../../resources/Marvin.png')}/>
+                        <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '8vh', padding: '8px'}} src={require('../../resources/Marvin.png')}/>
                     </div>
                     <div style={{marginTop: '10px', flex: 2}}>
                         <p style={{fontSize: '2.2rem', fontWeight: '600'}}>Marvin</p>
