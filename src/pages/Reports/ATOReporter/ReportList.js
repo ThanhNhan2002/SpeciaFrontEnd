@@ -89,6 +89,8 @@ export default function ReportList() {
       let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
       parentCheckBox.checked=false;
     }
+
+    
   }
 
   // action to be fired when the parent checkboxes is changed
