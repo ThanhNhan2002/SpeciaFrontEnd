@@ -3,8 +3,6 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { taxAgentEmails } from '../../DummyResource';
 import digitalAssistantsStyles from '../DigitalAssistants.module.css';
-import Button from 'react-bootstrap/Button';
-
 
 export default function AddUserModal ({addUserModalShow, closeAddUserModal, confirmAddUser})  {
     const[clientABN, setClientABN] = useState([]);  
@@ -19,7 +17,6 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
             setCheckedBoxes(oldState => {
             return [...oldState, emailId].sort()
           })
-    
         } else { //if the action is to uncheck the checkbox
             setCheckedBoxes(oldState => {
             let newState = oldState.filter((item) => item !== emailId);
@@ -68,7 +65,7 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
 
                     <Form.Group style={{margin:'0 0 20px 0'}}>
                         <Form.Label>Admin Accountant Email</Form.Label>
-                        <Form.Control className="clientABNinput" type="text" placeholder="Email"  onChange={changeAdminAccountant}/>
+                        <Form.Control className="clientABNinput" type="email" placeholder="Email"  onChange={changeAdminAccountant}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -78,7 +75,6 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                                 <button class="btn btn-secondary dropdown-toggle" style={{ color:'white', backgroundColor:'#ee7170',  height: '40px', border: 'none'}} type="button" id="dropdownMenuClickable" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
                                     <b>Tax Agent Email</b>
                                 </button>
-                                
                                 <ul class="dropdown-menu" style={{ backgroundColor:'#white', maxHeight: '100px', overflowY:'scroll'}} aria-labelledby="dropdownMenuClickable">
                                     {taxAgentEmails.map((email, index) => (
                                         <li style = {{padding: '2px 2px'}}>
