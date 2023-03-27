@@ -54,23 +54,23 @@ export default function AddUserModal ({addUserModalShow, closeAddUserModal, conf
                 <p style={{color: '#ee7170', fontWeight: '500', fontSize: '1.5rem'}} >Add Customer</p>
                 <Form>
                     <Form.Group style={{margin:'0 0 20px 0'}}>
-                        <Form.Label>Client ABN</Form.Label>
-                        <Form.Control className="clientABNinput" type="text" placeholder="ABN" onChange={changeClientABN}/>
+                        <Form.Label style={{color: 'black'}} >Client ABN</Form.Label>
+                        <Form.Control style={{color: 'black', fontWeight:'300'}} className="clientABNinput" type="text" placeholder="ABN" onChange={changeClientABN}/>
                     </Form.Group>
 
                     <Form.Group style={{margin:'0 0 20px 0'}}>
-                        <Form.Label>Client Name</Form.Label>
-                        <Form.Control className="clientABNinput" type="text" placeholder="Name"  onChange={changeClientName}/>
+                        <Form.Label style={{color: 'black'}}>Client Name</Form.Label>
+                        <Form.Control style={{color: 'black',  fontWeight:'300'}} className="clientABNinput" type="text" placeholder="Name"  onChange={changeClientName}/>
                     </Form.Group>
 
                     <Form.Group style={{margin:'0 0 20px 0'}}>
-                        <Form.Label>Admin Accountant Email</Form.Label>
-                        <Form.Control className="clientABNinput" type="email" placeholder="Email"  onChange={changeAdminAccountant}/>
+                        <Form.Label style={{color: 'black'}}>Admin Accountant Email</Form.Label>
+                        <Form.Control style={{color: 'black', fontWeight:'300'}} className="clientABNinput" type="email" placeholder="Email"  onChange={changeAdminAccountant}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                         <div class="btn-group" style={{margin:'0 30px 60px 0', display:'flex', flexDirection:'column' }}>
-                            <Form.Label>Select tax agent emails</Form.Label>
+                            <Form.Label style={{color: 'black'}}>Select tax agent emails</Form.Label>
                             <div style={{margin: '3px 0 0 0'}}>
                                 <button class="btn btn-secondary dropdown-toggle" style={{ color:'white', backgroundColor:'#ee7170',  height: '40px', border: 'none'}} type="button" id="dropdownMenuClickable" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
                                     <b>Tax Agent Email</b>
