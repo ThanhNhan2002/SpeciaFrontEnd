@@ -10,17 +10,24 @@ import Button from 'react-bootstrap/Button';
 
 
 import Modal from 'react-bootstrap/Modal';
+import MessageModal from '../../../utils/MessageModal';
 
 const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789'},
                     {id: 2, companyName: 'Company 2', ABN: '0123456789'},
                     {id: 3, companyName: 'Company 3', ABN: '0123456789'},
                     {id: 4, companyName: 'Company 4', ABN: '0123456789'},
                     {id: 5, companyName: 'Company 5', ABN: '0123456789'},
-                    {id: 6, companyName: 'Company 6', ABN: '0123456789'},
+                    {id: 6, companyName: 'Company 6', ABN: '0123456789'}
                     ]
 
 
 export default (props) => {
+
+    const [ messageShow, setMessageShow ] = useState(false)
+
+    const [ errorMessage, setErrorMessage ] = useState('')
+
+    const [ errorDescription, setErrorDescription ] = useState('')
 
     const [selectedUsers, setSelectedUsers ] = useState(props.request.customersSelected)
 
@@ -55,6 +62,20 @@ export default (props) => {
         setSelectedCustomerABN(e.target.value)
     }
 
+    function continueHandler(){
+        if(isSingleCust && !selectedCustomerABN){
+            setErrorDescription('Please provide the customer ABN to continue')
+            setErrorMessage('Missing ABN')
+            setMessageShow(true)
+        }else if(!isSingleCust && selectedUsers.length == 0){
+            setErrorDescription('Please select at least one customer to continue')
+            setErrorMessage('No customer selected')
+            setMessageShow(true)
+        }else{
+            props.onContinue()
+        }
+    }
+
     useEffect(() => {
         props.onUpdateCustomersSelected(selectedUsers)
     }, [selectedUsers]);
@@ -76,7 +97,7 @@ export default (props) => {
                         onChange={selectSingle}
                         checked={isSingleCust}  />
                         <div style={{flex: '1', marginLeft: '20px'}}>
-                            <p style={{margin: '0'}}>Single Customer</p>
+                            <p style={{margin: '0', fontSize: '1.4rem'}}>Single Customer</p>
                         </div>
                     </div>
                     <div style={{display: 'flex', alignItems:'flex-start', paddingBottom: '20px', flex: 1}}>
@@ -86,7 +107,7 @@ export default (props) => {
                         onChange={selectMultiple}
                         checked={!isSingleCust} />
                         <div style={{flex: '1', marginLeft: '20px'}}>
-                            <p style={{margin: '0'}}>Multiple Customers</p>
+                            <p style={{margin: '0', fontSize: '1.4rem'}}>Multiple Customers</p>
                         </div>
                     </div>
                 </div>
@@ -131,12 +152,13 @@ export default (props) => {
                         </Button>
                     {/* </div>
                     <div style={{flex: 1, textAlign: 'right'}}> */}
-                        <Button onClick={props.onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginLeft: '20px'}} variant="primary">
+                        <Button onClick={continueHandler} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginLeft: '20px'}} variant="primary">
                             Next Step
                         </Button>
                     </div>
                 </div>
             </Modal.Footer>
+            <MessageModal show={messageShow} onClose={() => {setMessageShow(false)}} message={errorMessage} description={errorDescription}></MessageModal>
         </>
     )
 }

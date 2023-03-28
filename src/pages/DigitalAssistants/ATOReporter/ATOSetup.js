@@ -2,42 +2,45 @@ import Button from 'react-bootstrap/Button';
 
 
 import { React, useState } from 'react'
-import Form from 'react-bootstrap/Form';
 
 import Modal from 'react-bootstrap/Modal';
 import CustomerTable from './CustomerTable';
 import UploadBulk from './UploadBulk';
 import AddUserModal from './AddUserModal';
 import AssignmentModal from './AssignmentModal';
-import EmailSentModal from './EmailSentModal';
+
+import styles from '../DigitalAssistants.module.css'
 
 
 const dummyData = [
 
       {id: 1, ABN: '111111111', clientName:'Company 1', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com','agent2@accounting1.com', 'agent3@accounting1.com']},
     
-      {id: 2, ABN: '111111112', clientName:'Company 2', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent2@accounting1.com', 'agent3@accounting1.com']},
+      {id: 2, ABN: '111111112', clientName:'Company 2', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent2@accounting1.com', 'agent4@accounting1.com']},
     
       {id: 3, ABN: '111111113', clientName:'Company 3', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent3@accounting1.com']},
     
-      {id: 4, ABN: '111111114', clientName:'Company 4', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent3@accounting1.com']},
+      {id: 4, ABN: '111111114', clientName:'Company 4', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent5@accounting1.com']},
     
-      {id: 5, ABN: '111111115', clientName:'Company 5', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent3@accounting1.com', 'agent3@accounting1.com']},
+      {id: 5, ABN: '111111115', clientName:'Company 5', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent3@accounting1.com', 'agent4@accounting1.com']},
     
       {id: 6, ABN: '111111116', clientName:'Company 6', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent3@accounting1.com']},
     
-    
-    
-    
       {id: 7, ABN: '111111117', clientName:'Company 7', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent4@accounting1.com']},
     
-      {id: 8, ABN: '111111118', clientName:'Company 8', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent4@accounting1.com']},
+      {id: 8, ABN: '111111118', clientName:'Company 8', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent1@accounting1.com', 'agent5@accounting1.com']},
     
-      {id: 9, ABN: '111111119', clientName:'Company 9', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent4@accounting1.com']}
+      {id: 9, ABN: '111111119', clientName:'Company 9', adminAccountantEmail:'admin@accounting1.com', taxAgentEmail: ['agent2@accounting1.com', 'agent3@accounting1.com']}
     
     ]
 
 export default (props) => {
+
+    const [ currentId, setCurrentId ] = useState(0)
+
+    const [ customerData, setCustomerData ] = useState(dummyData)
+
+    const [ emailSent, setEmailSent ] = useState(false)
 
     const [ currentAssignmentView, setCurrentAssignmentView ] = useState([])
 
@@ -47,8 +50,6 @@ export default (props) => {
 
     const [ assignmentModalShow, setAssignmentModalShow ] = useState(false)
 
-    const [ emailModalShow, setEmailModalShow ] = useState(false)
-
     function openUploadModal(){
         setUploadModalShow(true)
     }
@@ -57,16 +58,8 @@ export default (props) => {
         setUploadModalShow(false)
     }
 
-    function openEmailModal(){
-        setEmailModalShow(true)
-    }
-
-    function closeEmaildModal(){
-        setEmailModalShow(false)
-    }
-
     function sendEmailHandler(){
-        openEmailModal()
+        setEmailSent(true)
     }
 
     function confirmUpload(){
@@ -90,8 +83,8 @@ export default (props) => {
 
 
     function openAssignmentModal(id){
-        console.log(id)
-        setCurrentAssignmentView(dummyData.find(item => item.id == id).taxAgentEmail)
+        setCurrentId(id)
+        setCurrentAssignmentView([...customerData.find(item => item.id == id).taxAgentEmail])
         setAssignmentModalShow(true)
     }
 
@@ -99,38 +92,45 @@ export default (props) => {
         setAssignmentModalShow(false)
     }
 
-    function confirmAssignment(){
-        console.log('upload file')
+    function confirmAssignment(id, newAccountList){
+        setCustomerData(oldState => {
+            let newState = JSON.parse(JSON.stringify(oldState))
+            newState.find(item => item.id == id).taxAgentEmail = newAccountList
+            return newState
+        })
         setAssignmentModalShow(false)
+    }
+
+    function saveTableHandler(){
+        console.log('Saving Table ...')
     }
 
     return (
         <>
-            <Modal.Body style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px', scrollbarWidth: 'none'}}>
+            <Modal.Body className={styles.visible} style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px'}}>
                 <div>
-                    <p style={{paddingTop: '50px'}}>An email has been sent to your email address! </p>
-                    <p style={{fontSize: '1.3rem'}}>Please follow the instructions in the email to set up your ATO access.</p>
+                    <p style={{paddingTop: '50px', fontWeight: '500'}}>Set up ATO Access </p>
+                    { !emailSent && <p style={{fontSize: '1.3rem'}}>An email with instructions on how to set up ATO access will be sent to your email address <span style={{color: '#ee7170'}}>tung@spectargroup.com</span></p>}
+                    { emailSent && <p style={{fontSize: '1.3rem'}}>An email has been sent to your email address <span style={{color: '#ee7170'}}>tung@spectargroup.com</span>. Please check our mailbox!</p>}
                     <Button onClick={sendEmailHandler} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginTop: '20px'}} variant="primary">
-                        Send Email Again
+                        { !emailSent && 'Send Email'}{ emailSent && 'Resend Email'}
                     </Button>
                 </div>
-                <br/>
                 <div style={{width: '100%', textAlign: 'left'}}>
-                    <div style={{display: 'flex', flexDirection: 'row', paddingBottom: '20px'}}>
-                        <div style={{flex: 1}}>
-                            <p>Clients</p>
+                    <p style={{paddingTop: '70px', fontWeight: '500'}}>Manage Customers</p>
+                    <p style={{fontSize: '1.3rem'}}>Add a single customer or multiple customers by uploading a CSV file</p>
+                    <div style={{display: 'flex', flexDirection: 'row', paddingBottom: '25px', margin: '0 10px'}}>
+                        <div style={{flex: 1, textAlign: 'left'}}> 
+                            <p onClick={openAddUserModal} style={{color: '#ee7170', cursor: 'pointer', fontSize: '1.1rem', fontWeight: '600', display: 'inline'}}>+ Add a customer</p>
+                            <p onClick={openUploadModal} style={{color: '#ee7170', cursor: 'pointer', fontSize: '1.1rem', fontWeight: '600', display: 'inline', marginLeft:'40px'}}>+ Upload bulk customers</p>
+                        </div>
+                        <div style={{flex: 1, textAlign: 'right'}}> 
+                            <p onClick={saveTableHandler} style={{color: '#ee7170', cursor: 'pointer', fontSize: '1.1rem', fontWeight: '600', display: 'inline'}}>Save</p>
+                            
                         </div>
                     </div>
                     <div style={{}}>
-                        <CustomerTable customerData={dummyData} openAssignmentModal={openAssignmentModal}/>
-                    </div>
-                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                        <div style={{flex: 1, textAlign: 'left', color: '#ee7170'}}> 
-                            <p onClick={openAddUserModal} style={{cursor: 'pointer', fontSize: '1.1rem', fontWeight: '500', display: 'inline'}}>Add customer</p>
-                        </div>
-                        <div style={{flex: 1, textAlign: 'right', color: '#ee7170'}}>
-                            <p onClick={openUploadModal} style={{cursor: 'pointer', fontSize: '1.1rem', fontWeight: '500', display: 'inline'}}>Upload bulk customers</p>
-                        </div>
+                        <CustomerTable customerData={customerData} openAssignmentModal={openAssignmentModal}/>
                     </div>
                 </div>
 
@@ -157,9 +157,7 @@ export default (props) => {
             <AddUserModal addUserModalShow={addUserModalShow} closeAddUserModal={closeAddUserModal} confirmAddUser={confirmAddUser}/>
 
 
-            <AssignmentModal selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal} confirmAssignment={confirmAssignment}/>
-
-            <EmailSentModal show={emailModalShow} onClose={closeEmaildModal}/>
+            <AssignmentModal id={currentId} selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal} confirmAssignment={confirmAssignment}/>
         </>
     )
 }

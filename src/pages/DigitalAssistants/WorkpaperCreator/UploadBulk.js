@@ -1,6 +1,4 @@
 
-import Button from 'react-bootstrap/Button';
-
 import fileDownload from 'js-file-download'
 
 import { React, useState } from 'react'

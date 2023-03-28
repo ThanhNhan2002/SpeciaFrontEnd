@@ -23,11 +23,11 @@ export default ({request, onBack, onSubmit}) => {
     return (
         <>
         <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
-            <p>Please review your request</p>
+            <p style={{fontWeight: '500'}}>Review and Submit</p>
             <br/>
             <div>
-                { request.customerSelectionMode == 'M' && <p>Multiple Customers</p>}
-                { request.customerSelectionMode == 'S' && <p>Single Customer</p>}
+                { request.customerSelectionMode == 'M' && <p style={{fontSize: '1.3rem'}}>Multiple Customers</p>}
+                { request.customerSelectionMode == 'S' && <p style={{fontSize: '1.3rem'}}>Single Customer</p>}
                 { request.customerSelectionMode == 'M' && <Table className="table table-striped" style={{color: 'black', fontSize: '1.1rem', width: '40%', backgroundColor: 'white', borderRadius: '20px'}}>
                     <thead style={{color: '#ee7170'}}>
                         <tr>
@@ -47,26 +47,26 @@ export default ({request, onBack, onSubmit}) => {
 
                 { request.customerSelectionMode == 'S' && 
                     <ul>
-                        <li style={{fontSize: '1.3rem'}}>ABN: {request.selectedCustomerABN}</li>
+                        <li style={{fontSize: '1.2rem'}}>ABN - {request.selectedCustomerABN}</li>
                     </ul>
                 }
             </div>
             <br/>
             <div>
-                <p>Report Types</p>
+                <p style={{fontSize: '1.3rem'}}>Report Types</p>
                 <ul>
-                    { request.reportTypesSelected.includes('BAS') && <li style={{fontSize: '1.3rem'}}>Business Activity Statement</li> }
-                    { request.reportTypesSelected.includes('SOA') && <li style={{fontSize: '1.3rem'}}>Statement of Account</li> }
+                    { request.reportTypesSelected.includes('BAS') && <li style={{fontSize: '1.2rem'}}>Business Activity Statement</li> }
+                    { request.reportTypesSelected.includes('SOA') && <li style={{fontSize: '1.2rem'}}>Statement of Account</li> }
                 </ul>
             </div>
 
             <br/>
 
             <div>
-                <p>Period</p>
+                <p style={{fontSize: '1.3rem'}}>Period</p>
                 <ul>
-                    <li style={{fontSize: '1.3rem'}}>Start date: {request.periodFrom}</li>
-                    <li style={{fontSize: '1.3rem'}}>End date: {request.periodTo}</li>
+                    <li style={{fontSize: '1.2rem'}}>Start date - {request.periodFrom.replaceAll("-", "/")}</li>
+                    <li style={{fontSize: '1.2rem'}}>End date - {request.periodTo.replaceAll("-", "/")}</li>
                 </ul>
             </div>
 

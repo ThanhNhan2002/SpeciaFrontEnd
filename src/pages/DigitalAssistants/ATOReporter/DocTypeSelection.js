@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 import Modal from 'react-bootstrap/Modal';
 import Period from './Period';
+import MessageModal from '../../../utils/MessageModal';
 
 
 const reportTypes = [
@@ -22,6 +23,13 @@ const reportTypes = [
 ]
 
 export default (props) => {
+
+
+    const [ messageShow, setMessageShow ] = useState(false)
+
+    const [ errorMessage, setErrorMessage ] = useState('')
+
+    const [ errorDescription, setErrorDescription ] = useState('')
 
     const [selectedTypes, setSelectedTypes] = useState(props.request.reportTypesSelected)
 
@@ -42,9 +50,25 @@ export default (props) => {
     }, [selectedTypes]);
 
     function onContinueHandler(){
-        props.onUpdateTypesSelected(selectedTypes)
-        props.onContinue()
+        if( selectedTypes.length == 0){
+            setErrorDescription('Please select at least one report type to continue')
+            setErrorMessage('No report type selected')
+            setMessageShow(true)
+        }else if( !props.request.periodFrom ){
+            setErrorDescription('Please specify the start date to continue')
+            setErrorMessage('Missing start date')
+            setMessageShow(true)
+        }else if( !props.request.periodTo ){
+            setErrorDescription('Please specify the end date to continue')
+            setErrorMessage('Missing end date')
+            setMessageShow(true)
+        }else{
+            props.onUpdateTypesSelected(selectedTypes)
+            props.onContinue()
+        }
     }
+
+    
 
 
     return (
@@ -75,6 +99,8 @@ export default (props) => {
                     </div>
                 </div>
             </Modal.Footer>
+
+            <MessageModal show={messageShow} onClose={() => {setMessageShow(false)}} message={errorMessage} description={errorDescription}></MessageModal>
         </>
     )
 }

@@ -1,6 +1,6 @@
 
 
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 
 import styles from '../DigitalAssistants.module.css'
 
@@ -43,6 +43,10 @@ export default ({customerData, openAssignmentModal}) => {
         openAssignmentModal(id)
     }
 
+    useEffect(() => {
+        setTableData(customerData)
+    }, [customerData]);
+
     return (
         <div>
             <table className="table table-striped" style={{color: 'black', fontSize: '1.1rem', width: '100%', backgroundColor: 'white', borderRadius: '20px'}}>
@@ -60,7 +64,7 @@ export default ({customerData, openAssignmentModal}) => {
                             <td style={{paddingLeft: '2vw'}} scope="row"><input onChange={(e) => changeABNHandler(e, customer.id)} className={styles.tableField} value={customer.ABN} style={{backgroundColor: 'transparent', border: 0, width: '80%', color: 'black!important'}} /></td>
                             <td style={{paddingLeft: '2vw'}}><input onChange={(e) => changeClientNameHandler(e, customer.id)} className={styles.tableField} value={customer.clientName} style={{backgroundColor: 'transparent', border: 0, width: '80%', color: 'black'}} /></td>
                             <td style={{paddingLeft: '2vw'}}><input onChange={(e) => changeAdminAccountantEmailHandler(e, customer.id)} className={styles.tableField} value={customer.adminAccountantEmail} style={{backgroundColor: 'transparent', border: 0, width: '80%', color: 'black'}} /></td>
-                            <td style={{cursor: 'pointer', paddingLeft: '2vw'}} onClick={openAssignment.bind(this, customer.id)} >{customer.taxAgentEmail.length} Users</td>
+                            <td style={{cursor: 'pointer', paddingLeft: '2vw', color:"#ee7170"}} onClick={openAssignment.bind(this, customer.id)} >{customer.taxAgentEmail.length} Users</td>
                         </tr>
                     )}
                 </tbody>
