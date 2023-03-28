@@ -7,11 +7,18 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate, Link } from "react-router-dom";
 
 import Cookies from 'js-cookie';
+import MessageModal from "../../utils/MessageModal";
 
 
 export default function Login() {
 
     const naviagte = useNavigate()
+
+    const [ messageShow, setMessageShow ] = useState(false)
+
+    const [ errorMessage, setErrorMessage ] = useState('')
+
+    const [ errorDescription, setErrorDescription ] = useState('')
 
 
     const [ email, setEmail ] = useState('')
@@ -46,8 +53,12 @@ export default function Login() {
         event.stopPropagation();
 
         if(email && passwd && email.includes('@')){
-            console.log(email)
-            console.log(passwd)
+            Cookies.set('IdToken', 'raebrg78reay7ae8grg')
+            navigate('/')
+        }else{
+            setErrorDescription('Your email or password is incorrect. Please try again!')
+            setErrorMessage('Incorrect email or password')
+            setMessageShow(true)
         }
     }
 
@@ -98,6 +109,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+            <MessageModal show={messageShow} onClose={() => {setMessageShow(false)}} message={errorMessage} description={errorDescription}></MessageModal>
         </>
     )
 }

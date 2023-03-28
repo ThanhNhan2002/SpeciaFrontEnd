@@ -7,12 +7,24 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate, Link } from "react-router-dom";
 
 import Cookies from 'js-cookie';
+import MessageModal from "../../utils/MessageModal";
 
 
 export default function Login() {
 
 
+    const [ messageShow, setMessageShow ] = useState(false)
+
+    const [ errorMessage, setErrorMessage ] = useState('')
+
+    const [ errorDescription, setErrorDescription ] = useState('')
+
+
     const [ email, setEmail ] = useState('')
+
+    const navigate = useNavigate()
+
+    const [ emailSent, setEmailSent ] = useState(false)
 
 
     function emailChangedHandler(e){
@@ -25,13 +37,22 @@ export default function Login() {
         event.stopPropagation();
 
         if(email && email.includes('@')){
-            console.log(email)
+            setEmailSent(true)
+        }else{
+            setErrorDescription('Your email is invalid. Please try again!')
+            setErrorMessage('Invalid email')
+            setMessageShow(true)
         }
+
+    }
+
+    function backToLogin(){
+        navigate('/auth/login')
     }
 
     return (
         <>
-            <div style={{textAlign: 'center'}}>
+            { !emailSent && <div style={{textAlign: 'center'}}>
                 <img width="150px" src='https://specia.ai/wp-content/uploads/2021/11/huge-circle.svg' style={{ borderRadius: '50px', marginTop: '7vh', marginBottom: '7vh' }}/>
                 <p style={{fontSize: '1.7rem', fontWeight: '500'}}>Reset your password</p>
                 <div style={{textAlign: 'left', width: '450px', marginLeft: 'auto', marginRight: 'auto', marginTop: '50px'}}>
@@ -45,7 +66,22 @@ export default function Login() {
                         </Button>
                     </Form>
                 </div>
-            </div>
+            </div>}
+
+            { emailSent && <div style={{textAlign: 'center'}}>
+                <img width="150px" src='https://specia.ai/wp-content/uploads/2021/11/huge-circle.svg' style={{ borderRadius: '50px', marginTop: '7vh', marginBottom: '7vh' }}/>
+                <p style={{fontSize: '1.7rem', fontWeight: '500'}}>Email sent</p>
+                <p style={{marginTop: '50px', fontSize: '1.2rem'}}>Please follow the instructions in the email to reset your password</p>
+                <div style={{textAlign: 'left', width: '450px', marginLeft: 'auto', marginRight: 'auto', marginTop: '50px'}}>
+                        <Button onClick={backToLogin} style={{marginTop: '40px', padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginBottom: '30px', width: '100%'}} variant="primary" type="submit">
+                                Back to Login
+                        </Button>
+                </div>
+            </div>}
+
+
+            <MessageModal show={messageShow} onClose={() => {setMessageShow(false)}} message={errorMessage} description={errorDescription}></MessageModal>
+            
         </>
     )
 }
