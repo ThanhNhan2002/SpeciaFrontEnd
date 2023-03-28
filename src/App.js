@@ -14,6 +14,7 @@ import {
 
 import Layout from './Layout';
 import Login from './auth/login/Login';
+import ResetPasswd from './auth/login/ResetPwd';
 import DigitalAssistants from './pages/DigitalAssistants/DigitalAssistants';
 import ProtectedRoute from './auth/ProtectedRoute'
 import Registration from './auth/registration/Registration'
@@ -29,8 +30,9 @@ function App() {
   return (
             <Routes>
               <Route path='/auth/login' element={<Login/>}></Route>
-              <Route path='/auth/register' element={<ProtectedRoute><Registration/></ProtectedRoute>}></Route>
-              <Route path='/azureregistration' element={<AzureRegistration/>}></Route>
+              <Route path='/auth/passwdreset' element={<ResetPasswd/>}></Route>
+              <Route path='/auth/register' element={<Registration/>}></Route>
+              <Route path='/azureregistration' element={<ProtectedRoute><AzureRegistration/></ProtectedRoute>}></Route>
               <Route path="/" element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                 <Route index element={<DigitalAssistants/>}></Route>
                 <Route path='/reports' element={<Reports/>}></Route>

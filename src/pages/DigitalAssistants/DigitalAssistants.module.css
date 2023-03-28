@@ -53,3 +53,9 @@
   .customFileInput:active::before {
     background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
   }
+
+
+  .visible{
+    opacity: 1;
+    transform: translateY(0);
+  }

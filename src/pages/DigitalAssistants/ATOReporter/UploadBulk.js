@@ -15,16 +15,6 @@ import axios from 'axios';
 
 
 export default ({uploadModalShow, closeUploadModal, confirmUpload}) => {
-
-
-    function handleDownload(){
-        axios.get('http://localhost:3000/static/media/Suzzie.01d4e219f8c70b69c081.png', {
-          responseType: 'blob',
-        })
-        .then((res) => {
-          fileDownload(res.data, 'test-download.jpg')
-        })
-      }
     
     
     return (
@@ -35,26 +25,18 @@ export default ({uploadModalShow, closeUploadModal, confirmUpload}) => {
                     <p style={{color: '#ee7170', fontWeight: '500', fontSize: '1.5rem'}} >Upload Bulk Customers</p>
                     <Form.Group controlId="formFileLg" className="mb-3">
                         <p style={{fontSize: '1.1rem', fontWeight: '500'}}>Instructions</p>
-                        <p>1. Fill in the CSV template</p>
-                        <div>
-                            <p style={{fontSize: '0.9rem', fontWeight: '600', color: '#ee7170', cursor: 'pointer', textDecoration: 'none'}} onClick={handleDownload}>Download template</p>
+                        <p style={{marginBottom: 0}}>1. Fill in the CSV template</p>
+                        <div style={{padding: '10px 0'}}>
+                            <a style={{fontSize: '0.9rem', fontWeight: '600', color: '#ee7170', cursor: 'pointer', textDecoration: 'none'}} href="/static/media/CustomerTemplate.1ace4f28a6d727d91f84.xlsx" download={'CustomerTemplate.xlsx'}>Download template</a>
                         </div>
 
                         <Form.Label style={{marginBottom: '20px'}}>2. Upload the CSV template</Form.Label>
                         <div class="">
-                            {/* <form method="post" action="#" id="#"> */}
-                            
-                                
-                                
-                                
+
                                 <div class="form-group files">
-                                    <input type="file" class="form-control" multiple=""/>
+                                    <input type="file" class="form-control" multiple="" accept=".xls,.xlsx,.csv"/>
                                 </div>
-                                
-                                
-                            {/* </form> */}
-                            
-                            
+  
                         </div>
                     </Form.Group>
                 </Modal.Body>

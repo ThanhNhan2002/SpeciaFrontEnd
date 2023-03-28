@@ -47,7 +47,7 @@ export default ({request, onBack, onSubmit}) => {
 
                 { request.customerSelectionMode == 'S' && 
                     <ul>
-                        <li style={{fontSize: '1.3rem'}}>ABN: {request.selectedCustomerABN}</li>
+                        <li style={{fontSize: '1.3rem'}}>ABN - {request.selectedCustomerABN}</li>
                     </ul>
                 }
             </div>
@@ -55,7 +55,7 @@ export default ({request, onBack, onSubmit}) => {
             <br/>
 
             <div>
-                <p>Financial Year: {request.financialYear}</p>
+                <p>Financial Year - {request.financialYear}</p>
             </div>
 
 

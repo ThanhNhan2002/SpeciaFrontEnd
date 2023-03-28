@@ -13,7 +13,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default (props) => {
     
-    console.log(props.request)
 
     const [startDate, setStartDate] = useState(props.request.periodFrom)
 
