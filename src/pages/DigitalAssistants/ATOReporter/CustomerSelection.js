@@ -1,8 +1,7 @@
 import { useState, useEffect, React } from 'react'
 
-import Table from 'react-bootstrap/Table';
-
-import styles from '../DigitalAssistants.module.css'
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 
 import Form from 'react-bootstrap/Form';
 
@@ -49,6 +48,7 @@ export default (props) => {
     }
 
     function selectSingle(){
+        console.log('select multiple')
         setIsSingleCust(true)
         props.onUpdateCustomerSelectionMode('S')
     }
@@ -86,37 +86,37 @@ export default (props) => {
 
     return (
         <>  
-            <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
+            <Modal.Body className='mainContainer' style={{paddingTop: '50px', paddingLeft: '100px', paddingRight: '100px', paddingBottom: 0, fontSize: '1.6rem', lineHeight: '2.8rem'}}>
                 <p>Please select the customers you want me to process the reports for.</p>
-                <br/>
-                <div style={{display: 'flex', flexDirection: 'row', width: '40%'}}>
-                    <div style={{display: 'flex', alignItems:'flex-start', paddingBottom: '20px', flex: 1}}>
-                        <Form.Check
-                        type='radio'
-                        style={{paddingTop: '3px'}}
-                        onChange={selectSingle}
-                        checked={isSingleCust}  />
-                        <div style={{flex: '1', marginLeft: '20px'}}>
-                            <p style={{margin: '0', fontSize: '1.4rem'}}>Single Customer</p>
-                        </div>
-                    </div>
-                    <div style={{display: 'flex', alignItems:'flex-start', paddingBottom: '20px', flex: 1}}>
-                        <Form.Check
-                        type='radio'
-                        style={{paddingTop: '3px'}}
-                        onChange={selectMultiple}
-                        checked={!isSingleCust} />
-                        <div style={{flex: '1', marginLeft: '20px'}}>
-                            <p style={{margin: '0', fontSize: '1.4rem'}}>Multiple Customers</p>
-                        </div>
-                    </div>
+                <div style={{margin: '40px 0'}}>
+                    <ToggleButton
+                        type="radio"
+                        variant="outline-primary"
+                        name="radio"
+                        checked={isSingleCust} 
+                        onClick={selectSingle}
+                        style={{padding: '12px 35px', borderRadius: '50px', marginRight: '15px'}}
+                    >
+                        Single
+                    </ToggleButton>
+
+                    <ToggleButton
+                        type="radio"
+                        variant="outline-primary"
+                        name="radio"
+                        checked={!isSingleCust}
+                        onClick={selectMultiple}
+                        style={{padding: '12px 35px', borderRadius: '50px'}}
+                    >
+                        Multiple
+                    </ToggleButton>
+
                 </div>
 
-                <br/>
 
                 { isSingleCust && <div style={{width: '40%'}}>
-                    <p style={{fontSize: '1.2rem'}}>Please provide customer ABN</p>
-                    <Form.Control disabled={!isSingleCust} onChange={changeSelectedCustomerABN} value={selectedCustomerABN} type="text" style={{ color: 'white' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem', paddingLeft: '20px'}} aria-label="ABN" placeholder='ABN'>
+                    <p style={{fontSize: '1.2rem'}}>Please provide customer name</p>
+                    <Form.Control disabled={!isSingleCust} onChange={changeSelectedCustomerABN} value={selectedCustomerABN} type="text" style={{ color: 'white' ,height: '60px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1.1rem', paddingLeft: '20px'}} aria-label="Customer Name" placeholder='Customer Name'>
                     </Form.Control>
                 </div>}
 

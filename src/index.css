@@ -302,7 +302,6 @@ tbody, td, tfoot, th, thead, tr {
 
 /* Style the back side */
 .flip-card-back {
-  background-color: dodgerblue;
   color: white;
   transform: rotateY(180deg);
 }
@@ -313,4 +312,18 @@ tbody, td, tfoot, th, thead, tr {
   color: black;
   border: none;
   border-radius: 20px;
+}
+
+.mainContainer::-webkit-scrollbar {
+  display: none;
+}
+
+
+.mainContainer {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.btn-close {
+  --bs-btn-close-focus-shadow: none;
 }

@@ -76,7 +76,7 @@ export default () => {
                     <div className="flip-card-inner" style={{flex: 1}}>
                         <div className="flip-card-front" style={{flex: 1, border: '3px solid #4b2976', marginRight: '3vw', borderRadius: '30px', transition: '0.2s', display: 'flex', flexDirection: 'column', backgroundColor: 'transparent'}}>
                             <div style={{flex: 3}}>
-                                <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '10vh', padding: '8px'}} src={require('../../resources/Suzzie.png')}/>
+                                <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '10vh', padding: '10px'}} src={require('../../resources/Suzzie.png')}/>
                                 {/* <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '8vh', padding: '8px'}} src={require('../../resources/CustomerTemplate.xlsx')}/> */}
                             </div>
                             <div style={{marginTop: '10px', flex: 2}}>
@@ -117,7 +117,7 @@ export default () => {
                     <div className="flip-card-inner" style={{flex: 1}}>
                         <div className="flip-card-front" style={{flex: 1, border: '3px solid #4b2976', marginRight: '3vw', borderRadius: '30px', transition: '0.2s', display: 'flex', flexDirection: 'column', backgroundColor: 'transparent'}}>
                             <div style={{flex: 3}}>
-                                <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '10vh', padding: '8px'}} src={require('../../resources/Susan.png')}/>
+                                <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '10vh', padding: '10px'}} src={require('../../resources/Susan.png')}/>
                             </div>
                             <div style={{marginTop: '10px', flex: 2}}>
                                 <p style={{fontSize: '2.2rem', fontWeight: '600', color: 'white'}}>Susan</p>
@@ -160,7 +160,7 @@ export default () => {
                     <div className="flip-card-inner" style={{flex: 1}}>
                         <div className="flip-card-front" style={{flex: 1, border: '3px solid #4b2976', marginRight: '3vw', borderRadius: '30px', transition: '0.2s', display: 'flex', flexDirection: 'column', backgroundColor: 'transparent'}}>
                             <div style={{flex: 3}}>
-                                <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '10vh', padding: '8px'}} src={require('../../resources/Marvin.png')}/>
+                                <img style={{border: '2px solid #ee7170',width: '20vh', borderRadius: '20vw', marginTop: '10vh', padding: '10px'}} src={require('../../resources/Marvin.png')}/>
                             </div>
                             <div style={{marginTop: '10px', flex: 2}}>
                                 <p style={{fontSize: '2.2rem', fontWeight: '600', color: 'white'}}>Marvin</p>

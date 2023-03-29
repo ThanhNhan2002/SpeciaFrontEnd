@@ -10,6 +10,7 @@ import AddUserModal from './AddUserModal';
 import AssignmentModal from './AssignmentModal';
 
 import styles from '../DigitalAssistants.module.css'
+import MessageModal from '../../../utils/MessageModal';
 
 
 const dummyData = [
@@ -107,13 +108,13 @@ export default (props) => {
 
     return (
         <>
-            <Modal.Body className={styles.visible} style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px'}}>
+            <Modal.Body className={`${styles.visible} mainContainer`} style={{margin: '0px 100px', padding: 0, fontSize: '1.6rem', lineHeight: '2.8rem', borderRadius: '20px'}}>
                 <div>
                     <p style={{paddingTop: '50px', fontWeight: '500'}}>Set up ATO Access </p>
-                    { !emailSent && <p style={{fontSize: '1.3rem'}}>An email with instructions on how to set up ATO access will be sent to your email address <span style={{color: '#ee7170'}}>tung@spectargroup.com</span></p>}
-                    { emailSent && <p style={{fontSize: '1.3rem'}}>An email has been sent to your email address <span style={{color: '#ee7170'}}>tung@spectargroup.com</span>. Please check our mailbox!</p>}
+                    { !emailSent && <p style={{fontSize: '1.3rem'}}>ATO access is needed to process your requests</p>}
+                    { emailSent && <p style={{fontSize: '1.3rem'}}>An email has been sent to your email address <span style={{color: '#ee7170'}}>tung@spectargroup.com</span>. Please check your mailbox!</p>}
                     <Button onClick={sendEmailHandler} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginTop: '20px'}} variant="primary">
-                        { !emailSent && 'Send Email'}{ emailSent && 'Resend Email'}
+                        { !emailSent && 'Register with ATO'}{ emailSent && 'Resend Email'}
                     </Button>
                 </div>
                 <div style={{width: '100%', textAlign: 'left'}}>
@@ -122,7 +123,7 @@ export default (props) => {
                     <div style={{display: 'flex', flexDirection: 'row', paddingBottom: '25px', margin: '0 10px'}}>
                         <div style={{flex: 1, textAlign: 'left'}}> 
                             <p onClick={openAddUserModal} style={{color: '#ee7170', cursor: 'pointer', fontSize: '1.1rem', fontWeight: '600', display: 'inline'}}>+ Add a customer</p>
-                            <p onClick={openUploadModal} style={{color: '#ee7170', cursor: 'pointer', fontSize: '1.1rem', fontWeight: '600', display: 'inline', marginLeft:'40px'}}>+ Upload bulk customers</p>
+                            { props.selectedMode == "P" && <p onClick={openUploadModal} style={{color: '#ee7170', cursor: 'pointer', fontSize: '1.1rem', fontWeight: '600', display: 'inline', marginLeft:'40px'}}>+ Upload bulk customers</p>}
                         </div>
                         <div style={{flex: 1, textAlign: 'right'}}> 
                             <p onClick={saveTableHandler} style={{color: '#ee7170', cursor: 'pointer', fontSize: '1.1rem', fontWeight: '600', display: 'inline'}}>Save</p>
@@ -157,7 +158,9 @@ export default (props) => {
             <AddUserModal addUserModalShow={addUserModalShow} closeAddUserModal={closeAddUserModal} confirmAddUser={confirmAddUser}/>
 
 
-            <AssignmentModal id={currentId} selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal} confirmAssignment={confirmAssignment}/>
+            { props.selectedMode == "P" && <AssignmentModal id={currentId} selectedAccounts={currentAssignmentView} assignmentModalShow={assignmentModalShow} closeAssignmentModal={closeAssignmentModal} confirmAssignment={confirmAssignment}/>}
+
+            { props.selectedMode == "F" && <MessageModal show={assignmentModalShow} onClose={closeAssignmentModal} description="This feature is not available for free trial. Please upgrade to premium!" />}
         </>
     )
 }

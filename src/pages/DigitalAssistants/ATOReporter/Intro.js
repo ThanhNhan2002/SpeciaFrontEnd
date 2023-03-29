@@ -13,7 +13,7 @@ const lines = ['Hi there,',
 
 
 
-export default ({closeModal, onContinue}) => {
+export default ({closeModal, onContinue, onModeSelected}) => {
 
 
     const [ script, setScript ] = useState('')
@@ -29,10 +29,20 @@ export default ({closeModal, onContinue}) => {
     // }, [currentLineIdx])
 
 
+    function freeTrialHandler(){
+        onModeSelected('F')
+        onContinue()
+    }
+
+    function goPremiumHandler(){
+        onModeSelected('P')
+        onContinue()
+    }
+
 
     return (
         <>
-        <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
+        <Modal.Body className='mainContainer' style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
             {lines.map(line =>
                 <p>{line}</p>
             )}
@@ -46,10 +56,10 @@ export default ({closeModal, onContinue}) => {
                         </Button>
                     </div>
                     <div style={{flex: 1, textAlign: 'right'}}>
-                        <Button onClick={onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginLeft: '20px'}} variant="outline-primary">
+                        <Button onClick={freeTrialHandler} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginLeft: '20px'}} variant="outline-primary">
                             Try for Free
                         </Button>
-                        <Button onClick={onContinue} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginLeft: '20px'}} variant="primary">
+                        <Button onClick={goPremiumHandler} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginLeft: '20px'}} variant="primary">
                             Go Premium
                         </Button>
                     </div>

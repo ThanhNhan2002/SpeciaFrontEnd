@@ -3,13 +3,50 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import { Link } from "react-router-dom";
-import React from 'react';
+import React , { useState } from 'react';
 // import { Component }  from 'react';
 
 export default function Registration()  {
     // function signInWithAzure(){
     //     window.location.href = '/api/v1/auth/login';
     // }
+
+
+    const [ email, setEmail ] = useState('')
+
+    const [ passwd, setPasswd ] = useState('')
+
+    const [ companyName, setCompanyName ] = useState('')
+
+    const [ adminEmail, setAdminEmail ] = useState('')
+
+    const [ ABN, setABN ] = useState('')
+
+    const [ TAN, setTAN ] = useState('')
+
+    const [ phone, setPhone ] = useState('')
+
+    const [ address, setAddress ] = useState('')
+
+
+    function emailChangedHandler(e){
+        setEmail(e.target.value)
+    }
+
+    function passwdChangedHandler(e){
+        setPasswd(e.target.value)
+    }
+
+    function companyNameChangedHandler(e){
+        setCompanyName(e.target.value)
+    }
+
+
+    function adminEmailChangedHandler(e){
+        setAdminEmail(e.target.value)
+    }
+
+
 
     return (
         <>
@@ -18,16 +55,16 @@ export default function Registration()  {
                 <p style={{fontSize: '1.7rem', fontWeight: '500'}}>Create a new account</p>
                 <div style={{textAlign: 'left', width: '30vw', marginLeft: 'auto', marginRight: 'auto', marginTop: '50px'}}>
                     <Form.Group style={{marginBottom: '30px'}} controlId="formBasicEmail">
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="email" placeholder="Email Address" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="email" placeholder="Email Address" value={email} onChange={emailChangedHandler} />
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}} controlId="formBasicPassword">
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="password" placeholder="Password" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="password" placeholder="Password" value={passwd} onChange={passwdChangedHandler} />
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}}>
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Company Name" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Company Name" value={companyName} onChange={companyNameChangedHandler} />
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}}>
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Admin Email" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Admin Email" value={adminEmail} onChange={adminEmailChangedHandler} />
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}}>
                         <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="ABN" />

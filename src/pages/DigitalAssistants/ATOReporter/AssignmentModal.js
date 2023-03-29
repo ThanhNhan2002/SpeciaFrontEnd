@@ -50,7 +50,7 @@ export default ({id, selectedAccounts, assignmentModalShow, closeAssignmentModal
                             {accountsChecked.length} Users selected
                         </Dropdown.Toggle>
 
-                        <Dropdown.Menu style={{padding: '10px 20px', maxHeight: '200px', overflowY: 'scroll', borderRadius: '20px'}}>
+                        <Dropdown.Menu className='mainContainer' style={{padding: '10px 20px', maxHeight: '200px', overflowY: 'scroll', borderRadius: '20px'}}>
                             { agentAccount.map(acc =>
                                 // <Dropdown.Item>
                                     <div style={{display: 'flex', flexDirection: 'row', padding: '10px'}}>
