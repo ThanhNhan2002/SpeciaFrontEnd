@@ -1,9 +1,13 @@
 import Form from 'react-bootstrap/Form';
-
+import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import React , { useState } from 'react';
+import MessageModal from "../../utils/MessageModal";
+
+
+
 // import { Component }  from 'react';
 
 export default function Registration()  {
@@ -28,6 +32,12 @@ export default function Registration()  {
 
     const [ address, setAddress ] = useState('')
 
+    const [ errorDescription, setErrorDescription ] = useState('')
+    const [ messageShow, setMessageShow ] = useState(false)
+    const [ errorMessage, setErrorMessage ] = useState('')
+
+    const navigate = useNavigate();
+
 
     function emailChangedHandler(e){
         setEmail(e.target.value)
@@ -41,11 +51,73 @@ export default function Registration()  {
         setCompanyName(e.target.value)
     }
 
-
     function adminEmailChangedHandler(e){
         setAdminEmail(e.target.value)
     }
 
+    function ABNchangedHandler(e){
+        setABN(e.target.value)
+    }
+
+    function TANchangedHandler(e){
+        setTAN(e.target.value)
+    }
+
+    function phoneChangedHandler(e){
+        setPhone(e.target.value)
+    }
+
+    function addressChangedHandler(e){
+        setAddress(e.target.value)
+    }
+
+    function isValidEmail(email) {
+        if(email && email.includes('@')){
+            //do nothing
+        }else{
+            setErrorDescription('Your email or password is incorrect. Please try again!')
+            setErrorMessage('Incorrect email or password')
+            setMessageShow(true)
+            return 
+        }
+
+    }
+
+    function handleSubmit(event){
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(email && email.includes('@')){
+            //do nothing
+        }else{
+            setErrorDescription('Your email or password is incorrect. Please try again!')
+            setErrorMessage('Incorrect email or password')
+            setMessageShow(true)
+            return 
+        }
+
+        if(!isValidEmail) {
+            return 
+        }
+
+        if(email && email.includes('@')){
+            //do nothing
+        }else{
+            setErrorDescription('Your email or password is incorrect. Please try again!')
+            setErrorMessage('Incorrect email or password')
+            setMessageShow(true)
+            return 
+        }
+
+        console.log(email);
+        console.log(passwd);
+        console.log(companyName);
+        console.log(adminEmail);
+        console.log(ABN);
+        console.log(TAN);
+        console.log(phone);
+        console.log(address);
+    }
 
 
     return (
@@ -67,28 +139,29 @@ export default function Registration()  {
                         <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Admin Email" value={adminEmail} onChange={adminEmailChangedHandler} />
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}}>
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="ABN" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="ABN" value={ABN} onChange={ABNchangedHandler}/>
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}}>
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Tax Agent Number" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Tax Agent Number" value={TAN} onChange={TANchangedHandler}/>
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}}>
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Phone Number" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Phone Number" value={phone} onChange={phoneChangedHandler}/>
                     </Form.Group>
                     <Form.Group style={{marginBottom: '30px'}}>
-                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Address" />
+                        <Form.Control style={{height: '55px', backgroundColor: 'rgba(255,255,255,.2)', borderRadius: '8px', border: 0, fontSize: '1rem', paddingLeft: '20px'}} type="text" placeholder="Address" value={address} onChange={addressChangedHandler}/>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                         <Form.Check style={{marginTop: '20px'}} type="checkbox" label="By signing up you accept the Term of Service and Privacy Policy" checked/>
                     </Form.Group>
                     <div style={{marginTop: '40px', textAlign: 'center'}}>
-                        <Button style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginBottom: '30px', width: '100%'}} variant="primary" type="button">
+                        <Button onClick={handleSubmit} style={{padding: '15px 35px', paddingRight: '30px', borderRadius: '50px', marginBottom: '30px', width: '100%'}} variant="primary" type="button">
                             Sign up
                         </Button>
                         <p>Already have an account? <Link style={{textDecoration:'none'}} to="/auth/login"><span style={{fontWeight: '600', color: '#eb5b5b'}}>Sign in</span></Link></p>
                     </div>
                 </div>
             </div>
+            <MessageModal show={messageShow} onClose={() => {setMessageShow(false)}} message={errorMessage} description={errorDescription}></MessageModal>
         </>
     )
 }
