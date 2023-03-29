@@ -21,6 +21,8 @@ import Review from './Review';
 
 export default (props) => {
 
+    const [ selectedMode, setSelectedMode ] = useState()
+
 
     const [ steps, setSteps ] = useState([])
 
@@ -98,6 +100,11 @@ export default (props) => {
     }
 
 
+    function modeSelectedHandler(mode){
+        setSelectedMode(mode)
+    }
+
+
     
 
 
@@ -137,14 +144,14 @@ export default (props) => {
 
     return (
         <Modal show={props.isShow} fullscreen={true} onHide={closeModal}>
-            <Modal.Header style={{borderBottom: 0, marginTop: '15px', marginLeft: '15px', marginRight: '15px'}} closeButton>
-                <Modal.Title style={{color: '#ee7170', fontSize: '2rem'}}>
+            <Modal.Header style={{borderBottom: 0, marginTop: '15px', marginLeft: '15px', marginRight: '15px'}}>
+                <Modal.Title style={{color: '#ee7170', fontSize: '2rem', display: 'flex'}}>
                     <img width="40px" src='https://specia.ai/wp-content/uploads/2021/11/huge-circle.svg' style={{ borderRadius: '50px', margin: 'auto 0'}} alt="User avatar"/>
-                    <span style={{marginLeft: '25px', paddingTop: '10px'}}>Suzzie - The ATO Reporter</span>
+                    <span style={{marginLeft: '25px'}}>Suzzie - The ATO Reporter</span>
                 </Modal.Title>
             </Modal.Header>
-                { steps[currentStep] == 'intro' && <Intro closeModal={closeModal} onContinue={onContinue}/>}
-                { steps[currentStep] == 'ato-setup' && <ATOSetup onStatusUpdate={updateAtoAccessStatus} onContinue={onContinue} onBack={onBack}/>}
+                { steps[currentStep] == 'intro' && <Intro closeModal={closeModal} onContinue={onContinue} onModeSelected={modeSelectedHandler}/>}
+                { steps[currentStep] == 'ato-setup' && <ATOSetup selectedMode={selectedMode} onStatusUpdate={updateAtoAccessStatus} onContinue={onContinue} onBack={onBack}/>}
                 { steps[currentStep] == 'customer-select' && <CustomerSelection request={request} onUpdateCustomersSelected={updateCustomesSelected} onUpdateCustomerSelectionMode={updateCustomerSelectionMode} onUpdateSelectedCustomerABN={updateSelectedCustomerABN} onContinue={onContinue} onBack={onBack}/>}
                 { steps[currentStep] == 'select-doc-types-period' && <DocTypeSelection 
                     request={request} 

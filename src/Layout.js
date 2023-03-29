@@ -25,8 +25,8 @@ function Layout() {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-        <div style={{ display: "flex", flexDirection: "row", height: "100%", flex: 1, }}>
+      <div style={{ display: "flex", flexDirection: "column", height: "100vh"}}>
+        <div style={{ display: "flex", flexDirection: "row", height: "100%", flex: 1}}>
           <div style={{ height: '100%' }}>
             <div style={{ height: '100%' }}>
               <ul style={{ listStyleType: "none", margin: "0", padding: 0, display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -61,7 +61,7 @@ function Layout() {
               </ul>
             </div>
           </div>
-          <div style={{ flex: 1, overflowY: 'auto' }}>
+          <div style={{ flex: 1, overflowY: 'auto', height: '100vh' }}>
             <Outlet />
           </div>
         </div>

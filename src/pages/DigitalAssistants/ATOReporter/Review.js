@@ -22,7 +22,7 @@ export default ({request, onBack, onSubmit}) => {
 
     return (
         <>
-        <Modal.Body style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
+        <Modal.Body className='mainContainer' style={{padding: '50px 100px', fontSize: '1.6rem', lineHeight: '2.8rem'}}>
             <p style={{fontWeight: '500'}}>Review and Submit</p>
             <br/>
             <div>
