@@ -29,13 +29,14 @@ const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789', reports:
                     {id: 6, companyName: 'Company 6', ABN: '0123456789'},
                     ]
 
-// test
-const test =1;
+
 
 export default function ReportList() {
   const [open, setCollapse] = useState([]); // cotrolling the state of the collapsible element
-  const [toDownload, setDownload] = useState([]);  // cotrolling the state of the children checkboxes
+  const [checkedReports, setCheckedReports] = useState([]);  // cotrolling the state of the children checkboxes
   const [checkedCustomers, setCheckedCustomers] = useState([]); // cotrolling the state of the parent checkboxes
+
+  console.log(checkedReports);
 
   // action to be fired when the expand button is clicked
   function collapseControl(customerId) {
@@ -52,63 +53,56 @@ export default function ReportList() {
   }
 
   // action to be fired when the children checkboxes is changed
-  function downloadControl(reportID, customerId) {
-    let currentCheckbox = document.getElementById(`reportCheckBox${reportID}`);
-
-    if(currentCheckbox.checked === true) { //if the action is to check the checkbox
-      setDownload(oldState => {
-        return [...oldState, reportID].sort()
-      })
-
+  function downloadReportControl(reportID, customerId) {
+    if(!checkedReports.includes(reportID)) { //if the action is to check the checkbox
+      setCheckedReports(oldState => [...oldState, reportID])
+         
       //get the reports object of the parent
       const parents = customers.filter(customer => customer.id === customerId)[0]; // parent object
       const reports = parents.reports;
 
-      //check if alll sibling checboxes is checked
-      let allSiblingsChecked = true;
-      for(let report of reports) {
-        const siblingElements = document.getElementById(`reportCheckBox${report.reportID}`);
-        if (!siblingElements.checked) {
-          allSiblingsChecked = false;
-          break;
-        }
-      };
+      //check if all sibling checboxes is checked
+      if(reports.sort().join(',')=== [...checkedReports, reportID].sort().join(',')) {
+        setCheckedCustomers(prev => [...prev, customerId]);
+      }
 
-      //check if alll sibling checboxes is checked, set the parent checkbox to true
-      if (allSiblingsChecked) {
-        let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
-        parentCheckBox.checked=true;
-      };
+      // let allSiblingsChecked = true;
+      // for(let report of reports) {
+      //   // const siblingElements = document.getElementById(`reportCheckBox${report.reportID}`);
+      //   if (![...checkedReports, reportID].includes(report.reportID)) {
+      //     allSiblingsChecked = false;
+      //     console.log(`report unchecked: ${report.reportID}`);
+      //     break;
+      //   }
+      // };
+
+      // //check if al sibling checboxes is checked, set the parent checkbox to true
+      // if (allSiblingsChecked) {
+      //   //console.log('all sibling is checked')
+      //   setCheckedCustomers(prev => [...prev, customerId]);
+      // };
 
     } else { //if the action is to uncheck the checkbox
-      setDownload(oldState => {
+      setCheckedReports(oldState => {
         let newState = oldState.filter((item) => item !== reportID);
         return newState.sort()
       })
-
-      let parentCheckBox = document.getElementById(`customerCheckbox${customerId}`);
-      parentCheckBox.checked=false;
+      setCheckedCustomers(prev => prev.filter(customerID => customerID !== customerId));
     }
-
-    
   }
 
   // action to be fired when the parent checkboxes is changed
   function downloadCustomerControl (customerId) {
-    let currentCheckbox = document.getElementById(`customerCheckbox${customerId}`);
-
-    if(currentCheckbox.checked === true) { // the action is to check the parent checkbox
+    if(!checkedCustomers.includes(customerId)) { // the action is to check the parent checkbox
       setCheckedCustomers([...checkedCustomers, customerId]);
+
       let customer = customers.filter(customer => customer.id === customerId)[0];
       let reportsOfCustomer = customer.reports;
-      reportsOfCustomer.forEach((report) => {if (!toDownload.includes(report.reportID)) {toDownload.push(report.reportID)} })
 
-      //check all children checkboxes of the selected parent checkbox
-      for(let i = 0; i < reportsOfCustomer.length; i++) {
-        let reportID = reportsOfCustomer[i].reportID;
-        let currentReportcheckBox = document.getElementById(`reportCheckBox${reportID}`);
-        currentReportcheckBox.checked = true;
-      }
+      reportsOfCustomer.forEach(
+        (report) => {
+        if (!checkedReports.includes(report.reportID)) {setCheckedReports(prev => [...prev, report.reportID])} }
+      )
     } else { //// the action is to uncheck the parent checkbox
       setCheckedCustomers(
         (oldState) => {
@@ -116,22 +110,18 @@ export default function ReportList() {
           return newState.sort();
         }
       );
+
+      // getting the chilren checkboxes
       let customer = customers.filter(customer => customer.id === customerId)[0];
       let reportsOfCustomerToRemove = customer.reports;
       let reportIDtoRemove =  reportsOfCustomerToRemove.map((report) => report.reportID);
-      let remainedReport = toDownload.filter(reportID => !reportIDtoRemove.includes(reportID));
-      setDownload(remainedReport.sort());
-      
-      //uncheck all children checkboxes of the selected parent checkbox
-      for(let i = 0; i<reportIDtoRemove.length; i++ ) {
-        let currentElement = document.getElementById(`reportCheckBox${reportIDtoRemove[i]}`);
-        currentElement.checked=false;
-      }
+      let remainedReport = checkedReports.filter(reportID => !reportIDtoRemove.includes(reportID));
+      setCheckedReports(remainedReport.sort());
     }
   }
 
   function startDownload() {
-    alert(`downloading report: ${toDownload.sort()}`)
+    alert(`downloading report: ${checkedReports.sort()}`)
   }
 
   return (
@@ -173,7 +163,12 @@ export default function ReportList() {
                     {customer.companyName}
                   </div>
                   <div className="col-1" style={{textAlign:'center'}}>
-                    <Form.Check id={`customerCheckbox${customer.id}`} onChange={downloadCustomerControl.bind(this, customer.id)} inline type='checkbox' style={{margin:'0 0 0 0 '}}/>
+                    <Form.Check 
+                      checked = {checkedCustomers.includes(customer.id)}
+                      onChange={downloadCustomerControl.bind(this, customer.id)} 
+                      inline 
+                      type='checkbox' 
+                      style={{margin:'0 0 0 0 '}}/>
                   </div>
                   <Collapse in={open.includes(customer.id)} style={{padding:'0px'}}>
                     <div>
@@ -224,7 +219,12 @@ export default function ReportList() {
                                   </Link>
                                 </div>     
                                 <div className="col-1" style={{textAlign:'center'}}>
-                                  <Form.Check onChange={downloadControl.bind(this, report.reportID, customer.id)} id={`reportCheckBox${report.reportID}`} inline type='checkbox' style={{margin:'0 0 0 0 '}}/>
+                                  <Form.Check 
+                                    onChange={downloadReportControl.bind(this, report.reportID, customer.id)} 
+                                    checked={checkedReports.includes(report.reportID)}
+                                    inline 
+                                    type='checkbox' 
+                                    style={{margin:'0 0 0 0 '}}/>
                                 </div>  
                               </>
                             ))}
