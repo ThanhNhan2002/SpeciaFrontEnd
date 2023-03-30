@@ -38,6 +38,10 @@ export default function Registration()  {
     const [ messageShow, setMessageShow ] = useState(false)
     const [ errorMessage, setErrorMessage ] = useState('')
 
+    const [submittedDescription,setSubmittedDescription] = useState('')
+    const [ submittedShow, setSubmittedShow] = useState(false)
+    const [ submittedMessage, setSubmittedMessage ] = useState('')
+
     const navigate = useNavigate();
 
 
@@ -74,12 +78,30 @@ export default function Registration()  {
     }
 
     function isValidEmail(email) {
-        if(email && email.includes('@')){
+        // if(email && email.includes('@')){
+        //     console.log(`Valid email: ${email}`)
+        //     return true
+        // }else{
+        //     setErrorDescription('Your email is incorrect. Please try again!')
+        //     setErrorMessage('Incorrect email')
+        //     setMessageShow(true)
+        //     return false
+        // }
+
+        if(!email) {
+            setErrorDescription('Please enter an email')
+            setErrorMessage('Invalid email')
+            setMessageShow(true)
+            return false
+        }
+
+        const result = validator.isEmail(email+'');
+        if(result === true) {
             console.log(`Valid email: ${email}`)
             return true
-        }else{
-            setErrorDescription('Your email is incorrect. Please try again!')
-            setErrorMessage('Incorrect email')
+        } else {
+            setErrorDescription('Please enter a valid email')
+            setErrorMessage('Invalid email')
             setMessageShow(true)
             return false
         }
@@ -265,6 +287,9 @@ export default function Registration()  {
         submitObject.phone = phone;
         submitObject.address = address;
         console.log(`submit object: ${JSON.stringify(submitObject)}`);
+
+        setSubmittedMessage('Form submitted');
+        setSubmittedShow(true);
     }
 
 
@@ -310,6 +335,9 @@ export default function Registration()  {
                 </div>
             </div>
             <MessageModal show={messageShow} onClose={() => {setMessageShow(false)}} message={errorMessage} description={errorDescription}></MessageModal>
+            <div>
+            <MessageModal show={submittedShow} onClose={() => {setSubmittedShow(false)}} message={submittedMessage} description={submittedDescription}></MessageModal>
+            </div>
         </>
     )
 }

@@ -61,7 +61,7 @@ function Layout() {
               </ul>
             </div>
           </div>
-          <div style={{ flex: 1, overflowY: 'auto', height: '100vh' }}>
+          <div className='mainContainer' style={{ flex: 1, overflowY: 'auto', height: '100vh'}}>
             <Outlet />
           </div>
         </div>
