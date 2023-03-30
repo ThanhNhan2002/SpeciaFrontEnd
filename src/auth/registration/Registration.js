@@ -75,6 +75,7 @@ export default function Registration()  {
 
     function isValidEmail(email) {
         if(email && email.includes('@')){
+            console.log(`Valid email: ${email}`)
             return true
         }else{
             setErrorDescription('Your email is incorrect. Please try again!')
@@ -105,6 +106,7 @@ export default function Registration()  {
 
         const result = passwordSchema.validate(password, { details: true });
         if(result.length === 0){
+            console.log(`Valid password: ${password}`)
             return true
         } else {
             setErrorDescription(result[0].message)
@@ -115,13 +117,13 @@ export default function Registration()  {
     }
 
     function isValidCompanyName (companyName) {
-        console.log('company name: '+companyName);
         if(!companyName) {
             setErrorDescription('Please enter company name')
             setErrorMessage('Invalid company name')
             setMessageShow(true)
             return false
         } else {
+            console.log(`Valid company: ${companyName}`)
             return true;
         }
     }
@@ -136,6 +138,7 @@ export default function Registration()  {
 
         const result = validator.isEmail(adminEmail+'');
         if(result === true) {
+            console.log(`Valid admin email: ${adminEmail}`)
             return true
         } else {
             setErrorDescription('Please enter a valid email')
@@ -153,35 +156,73 @@ export default function Registration()  {
             return false
         }
         
-        const result = validator.isNumeric(ABN);
+        const result = validator.isNumeric(ABN) && ABN.length === 11;
         if(result) {
+            console.log(`Valid ABN: ${ABN}`)
             return true
         } else {
-            setErrorDescription('Please enter a valid ABN')
+            setErrorDescription('Please enter a valid 11-digit ABN')
             setErrorMessage('Invalid ABN')
             setMessageShow(true)
             return false
         }
     }
 
-    // function isValidTAN (TAN) {
+    function isValidTAN (TAN) {
+        if(!TAN) {
+            setErrorDescription('Please enter TAN')
+            setErrorMessage('Invalid TAN')
+            setMessageShow(true)
+            return false
+        }
+        
+        const result = validator.isNumeric(TAN);
+        if(result) {
+            console.log(`Valid TAN: ${TAN}`)
+            return true
+        } else {
+            setErrorDescription(`Please enter a valid TAN`)
+            setErrorMessage('Invalid TAN')
+            setMessageShow(true)
+            return false
+        }
+    }
 
-    // }
+    function isValidPhone (phone) {
+        if(!phone) {
+            setErrorDescription(`Please enter phone number`)
+            setErrorMessage('Invalid phone number')
+            setMessageShow(true)
+            return false
+        }
+        
+        const result = validator.isMobilePhone(phone);
+        if(result) {
+            console.log(`Valid phone:  ${phone}`)
+            return true
+        } else {
+            setErrorDescription('Please enter a valid phone number')
+            setErrorMessage('Invalid phone number')
+            setMessageShow(true)
+            return false
+        }
+    }
 
-    // function isValidPhone (phone) {
-
-    // }
-
-    // function isValidAddress (address) {
-
-    // }
-
+    function isValidAddress (address) {
+        if(!address) {
+            setErrorDescription('Please enter an address')
+            setErrorMessage('Invalid phone address')
+            setMessageShow(true)
+            return false
+        }
+        console.log(`Valid address: : ${address}`)
+        return true
+    }
     
-
     function handleSubmit(event){
         event.preventDefault();
         event.stopPropagation();
-
+        
         if(!isValidEmail(email)) {
             return false;
         }
@@ -202,28 +243,28 @@ export default function Registration()  {
             return false;
         }  
 
-        // if(!isValidTAN(TAN))  {
-        //     return false;
-        // }  
+        if(!isValidTAN(TAN))  {
+            return false;
+        }  
 
-
-
-        // if(!isValidPhone(phone)) {
-        //     return false;
-        // }
+        if(!isValidPhone(phone)) {
+            return false;
+        }
         
-        // if(!isValidAddress(address)) {
-        //     return false;
-        // }
+        if(!isValidAddress(address)) {
+            return false;
+        }
 
-        console.log(`email: ${email}`);
-        console.log(`password: ${passwd}`);
-        console.log(`companyName: ${companyName}`);
-        console.log(`adminEmail: ${adminEmail}`);
-        console.log(`ABN: ${ABN}`);
-        console.log(`TAN: ${TAN}`);
-        console.log(`phone: ${phone}`);
-        console.log(`address: ${address}`);
+        const submitObject = {};
+        submitObject.email = email;
+        submitObject.password = passwd;
+        submitObject.companyName = companyName;
+        submitObject.adminEmail = adminEmail;
+        submitObject.ABN = ABN;
+        submitObject.TAN = TAN;
+        submitObject.phone = phone;
+        submitObject.address = address;
+        console.log(`submit object: ${JSON.stringify(submitObject)}`);
     }
 
 
