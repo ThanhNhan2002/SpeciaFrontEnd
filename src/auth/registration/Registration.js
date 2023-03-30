@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate, Link } from "react-router-dom";
 import React , { useState } from 'react';
 import MessageModal from "../../utils/MessageModal";
+import passwordValidator from  'password-validator';
+import validator from 'validator';
 
 
 
@@ -73,50 +75,155 @@ export default function Registration()  {
 
     function isValidEmail(email) {
         if(email && email.includes('@')){
-            //do nothing
+            return true
         }else{
-            setErrorDescription('Your email or password is incorrect. Please try again!')
-            setErrorMessage('Incorrect email or password')
+            setErrorDescription('Your email is incorrect. Please try again!')
+            setErrorMessage('Incorrect email')
             setMessageShow(true)
-            return 
+            return false
+        }
+    }
+
+    function isValidPassword(password) {
+        let passwordSchema = new passwordValidator();
+        passwordSchema
+        .is().min(8)                                    // Minimum length 8
+        .is().max(100)                                  // Maximum length 100
+        .has().uppercase()                              // Must have uppercase letters
+        .has().lowercase()                              // Must have lowercase letter
+        .has().digits(1)                                // Must have 1 digit
+        .has().not().spaces()                           // Must not have any space
+        .is().not().oneOf(['123456', 'Passw0rd', 'Password123'])   //Password blacklist
+        .has(/[!@#$%^&*]/g, 'The string must have at least 1 special character: !@#$%^&*') // Must have at least 1 special character !@#$%^&*
+
+        if(!password) {
+            setErrorDescription('Please enter password')
+            setErrorMessage('Invalid password')
+            setMessageShow(true)
+            return false
         }
 
+        const result = passwordSchema.validate(password, { details: true });
+        if(result.length === 0){
+            return true
+        } else {
+            setErrorDescription(result[0].message)
+            setErrorMessage('Invalid password')
+            setMessageShow(true)
+            return false
+        }
     }
+
+    function isValidCompanyName (companyName) {
+        console.log('company name: '+companyName);
+        if(!companyName) {
+            setErrorDescription('Please enter company name')
+            setErrorMessage('Invalid company name')
+            setMessageShow(true)
+            return false
+        } else {
+            return true;
+        }
+    }
+
+    function isValidAdminEmail(adminEmail) {
+        if(!adminEmail) {
+            setErrorDescription('Please enter admin email')
+            setErrorMessage('Invalid admin email')
+            setMessageShow(true)
+            return false
+        }
+
+        const result = validator.isEmail(adminEmail+'');
+        if(result === true) {
+            return true
+        } else {
+            setErrorDescription('Please enter a valid email')
+            setErrorMessage('Invalid admin email')
+            setMessageShow(true)
+            return false
+        }
+    }
+
+    function isValidABN (ABN) {
+        if(!ABN) {
+            setErrorDescription('Please enter ABN')
+            setErrorMessage('Invalid ABN')
+            setMessageShow(true)
+            return false
+        }
+        
+        const result = validator.isNumeric(ABN);
+        if(result) {
+            return true
+        } else {
+            setErrorDescription('Please enter a valid ABN')
+            setErrorMessage('Invalid ABN')
+            setMessageShow(true)
+            return false
+        }
+    }
+
+    // function isValidTAN (TAN) {
+
+    // }
+
+    // function isValidPhone (phone) {
+
+    // }
+
+    // function isValidAddress (address) {
+
+    // }
+
+    
 
     function handleSubmit(event){
         event.preventDefault();
         event.stopPropagation();
 
-        if(email && email.includes('@')){
-            //do nothing
-        }else{
-            setErrorDescription('Your email or password is incorrect. Please try again!')
-            setErrorMessage('Incorrect email or password')
-            setMessageShow(true)
-            return 
+        if(!isValidEmail(email)) {
+            return false;
         }
 
-        if(!isValidEmail) {
-            return 
+        if(!isValidPassword(passwd)) {
+            return false;
         }
 
-        if(email && email.includes('@')){
-            //do nothing
-        }else{
-            setErrorDescription('Your email or password is incorrect. Please try again!')
-            setErrorMessage('Incorrect email or password')
-            setMessageShow(true)
-            return 
+        if(!isValidCompanyName(companyName))  {
+            return false;
         }
 
-        console.log(email);
-        console.log(passwd);
-        console.log(companyName);
-        console.log(adminEmail);
-        console.log(ABN);
-        console.log(TAN);
-        console.log(phone);
-        console.log(address);
+        if(!isValidAdminEmail(adminEmail))  {
+            return false;
+        }  
+
+        if(!isValidABN(ABN))  {
+            return false;
+        }  
+
+        // if(!isValidTAN(TAN))  {
+        //     return false;
+        // }  
+
+
+
+        // if(!isValidPhone(phone)) {
+        //     return false;
+        // }
+        
+        // if(!isValidAddress(address)) {
+        //     return false;
+        // }
+
+        console.log(`email: ${email}`);
+        console.log(`password: ${passwd}`);
+        console.log(`companyName: ${companyName}`);
+        console.log(`adminEmail: ${adminEmail}`);
+        console.log(`ABN: ${ABN}`);
+        console.log(`TAN: ${TAN}`);
+        console.log(`phone: ${phone}`);
+        console.log(`address: ${address}`);
     }
 
 
