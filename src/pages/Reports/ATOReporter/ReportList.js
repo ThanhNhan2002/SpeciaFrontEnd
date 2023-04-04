@@ -29,14 +29,10 @@ const customers = [{id: 1, companyName: 'Company 1', ABN: '0123456789', reports:
                     {id: 6, companyName: 'Company 6', ABN: '0123456789'},
                     ]
 
-
-
 export default function ReportList() {
   const [open, setCollapse] = useState([]); // cotrolling the state of the collapsible element
   const [checkedReports, setCheckedReports] = useState([]);  // cotrolling the state of the children checkboxes
   const [checkedCustomers, setCheckedCustomers] = useState([]); // cotrolling the state of the parent checkboxes
-
-  console.log(checkedReports);
 
   // action to be fired when the expand button is clicked
   function collapseControl(customerId) {
@@ -61,27 +57,12 @@ export default function ReportList() {
       const parents = customers.filter(customer => customer.id === customerId)[0]; // parent object
       const reports = parents.reports;
 
+
+      const reportIds = reports.map(report => report.reportID); // all the report IDs of current customer
       //check if all sibling checboxes is checked
-      if(reports.sort().join(',')=== [...checkedReports, reportID].sort().join(',')) {
+      if(reportIds.sort().join(',') === [...checkedReports, reportID].sort().join(',')) {
         setCheckedCustomers(prev => [...prev, customerId]);
       }
-
-      // let allSiblingsChecked = true;
-      // for(let report of reports) {
-      //   // const siblingElements = document.getElementById(`reportCheckBox${report.reportID}`);
-      //   if (![...checkedReports, reportID].includes(report.reportID)) {
-      //     allSiblingsChecked = false;
-      //     console.log(`report unchecked: ${report.reportID}`);
-      //     break;
-      //   }
-      // };
-
-      // //check if al sibling checboxes is checked, set the parent checkbox to true
-      // if (allSiblingsChecked) {
-      //   //console.log('all sibling is checked')
-      //   setCheckedCustomers(prev => [...prev, customerId]);
-      // };
-
     } else { //if the action is to uncheck the checkbox
       setCheckedReports(oldState => {
         let newState = oldState.filter((item) => item !== reportID);
