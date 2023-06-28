@@ -21,6 +21,15 @@ React, Bootstrap and other awesome libraries
 ## Notes 
 This project focuses on the front-end implementation for Spectar's new product, the Specia platform. While the back-end system is currently under development, it is not publicly available to ensure the cybersecurity of Spectar Group.
 
+Dark theme (later version):
+* https://github.com/ThanhNhan2002/SpeciaFrontEnd (public repo, for demonstration purpose)
+* https://github.com/tunganh5005/SpeciaAccountant (private repo, for development purpose)
+
+White theme (ealier version):
+* https://github.com/ThanhNhan2002/SpeciaFrontEndWhite (public repo, for demonstration purpose)
+* https://github.com/tunganh5005/SpeciaPortalUI (prrivate repo, for development purpose)
+
+
 ## Available Scripts
 In the project directory, you can run:
 
