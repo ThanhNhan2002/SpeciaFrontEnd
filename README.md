@@ -14,7 +14,7 @@ Project demo: https://youtu.be/2MjJZAmmidI
 * Download the reports of the digital workers by selecting the checkboxes
   
 ## What we use
-React (bootstrapped with Create React App) and other awesome libraries
+React, Bootstrap and other awesome libraries
 
 ## Notes 
 This project focuses on the front-end implementation for Spectar's new product, the Specia platform. While the back-end system is currently under development, it is not publicly available to ensure the cybersecurity of Spectar Group.
