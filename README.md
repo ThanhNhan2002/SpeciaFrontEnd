@@ -6,6 +6,8 @@ This frontend project is developed for the new product launch of [Spectar Group]
 
 Project demo: https://youtu.be/2MjJZAmmidI
 
+To log in: just type any of email in the email form (for example: abc@gmail.com) and any password
+
 ## Features
 * Landing page
 * Login/logout/signup user-based page
