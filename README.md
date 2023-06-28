@@ -16,8 +16,10 @@ Project demo: https://youtu.be/2MjJZAmmidI
 ## What we use
 React (bootstrapped with Create React App) and other awesome libraries
 
-## Available Scripts
+## Notes 
+This project focuses on the front-end implementation for Spectar's new product, the Specia platform. While the back-end system is currently under development, it is not publicly available to ensure the cybersecurity of Spectar Group.
 
+## Available Scripts
 In the project directory, you can run:
 
 ### `npm start`
